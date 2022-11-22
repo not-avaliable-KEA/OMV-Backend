@@ -10,9 +10,4 @@ public class OmvBackendApplication {
         SpringApplication.run(OmvBackendApplication.class, args);
     }
 
-    /*
-     * test
-     * test2
-     * */
-
 }
