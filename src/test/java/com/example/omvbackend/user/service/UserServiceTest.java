@@ -24,13 +24,15 @@ class UserServiceTest {
         String expectedUsername = "username";
         String expectedPassword = "password";
 
+        User expectedUser = new User(expectedUsername, expectedPassword);
+        expectedUser.setId(1L);
+
         //act - result
         User result = userService.create(new User(expectedUsername, expectedPassword));
 
         //assert - asserting expected and result
-        assertEquals(result.getUsername(), expectedUsername);
-        assertEquals(result.getPassword(), expectedPassword);
-        assertNotNull(result.getId());
+
+        userCheckEquals(expectedUser, result);
     }
 
     @Test
@@ -62,12 +64,10 @@ class UserServiceTest {
         Optional<User> result = userService.get(expectedUser.getId());
 
         //assert
-        //We check if the there is a user, og expects true.
+        //We check if the there is a user.
         assertTrue(result.isPresent());
         //then we check what it is.
-        assertEquals(expectedUser.getId(),result.get().getId());
-        assertEquals(expectedUser.getUsername(),result.get().getUsername());
-        assertEquals(expectedUser.getPassword(),result.get().getPassword());
+        userCheckEquals(expectedUser, result.get());
     }
 
     @Test
@@ -76,11 +76,17 @@ class UserServiceTest {
         long invalidId = -1;
 
         //act
-
         Optional<User> result = userService.get(invalidId); //declare a optional user, og set it to be invalid on purpose.
 
         //assert
         assertTrue(result.isEmpty()); //we expect result is empty, that id is invalid.
+    }
+
+    // function to compare two users, that are expected to be the same
+    void userCheckEquals(User expected,User result) {
+        assertEquals(expected.getId(),result.getId());
+        assertEquals(expected.getUsername(),result.getUsername());
+        assertEquals(expected.getPassword(),result.getPassword());
     }
 
 }
