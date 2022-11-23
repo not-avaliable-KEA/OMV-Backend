@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+//it starts the springboot server - it tests the way it works in the applikation, og not just the class.
 
-//den starter springboot serveren, den tester som det virker i applikationen, og ikke kun i klassen.
 @SpringBootTest
 class UserServiceTest {
 
@@ -173,6 +173,73 @@ class UserServiceTest {
         // assert
         assertTrue(result);
         assertEquals(expectedLengthOfUsers, currentLengthOfUsers);
+    }
+
+    @Test
+    void update_username(){
+        //arrange
+        User createdUser = userService.create(new User("yas","naaj"));
+        String oldSalt = createdUser.getSalt();
+        String oldPassword = createdUser.getPassword();
+
+
+        String expectedName= "tis";
+        User forUpdatedUser = new User();
+        forUpdatedUser.setUsername(expectedName);
+
+        //act
+        User result = userService.update(forUpdatedUser);
+
+        //assert
+        //checks that the result is not null
+        assertNotNull(result);
+        //checks that the username has been set correctly
+        assertEquals(expectedName,result.getUsername());
+
+        // checks that the password has not been changed
+        assertEquals(oldSalt, result.getSalt());
+        assertEquals(oldPassword, result.getPassword());
+
+        // checks that we can login with the new password
+        User loginCheck = new User(expectedName, oldPassword);
+        assertEquals(userService.checkLogin(loginCheck).getId(), createdUser.getId());
+    }
+
+    @Test
+    void update_password(){
+        //arrange
+        User createdUser = userService.create(new User("yas","naaj"));
+        String oldUsername = createdUser.getUsername();
+        String oldSalt = createdUser.getSalt();
+        String oldPassword = createdUser.getPassword();
+
+        String expectedPassword= "movie";
+        User forUpdatedUser = new User();
+        forUpdatedUser.setPassword(expectedPassword);
+
+
+        //act
+        User result = userService.update(forUpdatedUser);
+
+
+        //assert
+        //checks that we do not get null back
+        assertNotNull(result);
+
+        //checks that the username is still the same
+        assertEquals(oldUsername, result.getUsername());
+
+        // checks that the password is not the same as the old one and that it follows
+        assertNotEquals(oldPassword, result.getPassword());
+        assertEquals(64, result.getPassword().length());
+
+        // checks that the salt has been set, and it has the correct length
+        assertNotEquals(oldSalt, result.getSalt());
+        assertEquals(16, result.getSalt().length());
+
+        // checks that we can login with the new password
+        User loginCheck = new User(oldUsername, expectedPassword);
+        assertEquals(userService.checkLogin(loginCheck).getId(), createdUser.getId());
     }
 
 

@@ -42,7 +42,11 @@ public class UserService {
         return repo.findById(id);
     }
 
-    //update -
+    //update
+    public User update(User user){
+         return null;
+     }
+
 
 
     //delete
