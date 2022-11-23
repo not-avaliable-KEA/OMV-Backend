@@ -1,6 +1,7 @@
 package com.example.omvbackend.user.service;
 
 import com.example.omvbackend.user.model.User;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,28 +19,38 @@ class UserServiceTest {
     @Autowired
     private UserService userService;
 
+
     @Test
     void create(){
         //arrange - expected
         String expectedUsername = "username";
         String expectedPassword = "password";
 
-        User expectedUser = new User(expectedUsername, expectedPassword);
-        expectedUser.setId(1L);
-
         //act - result
         User result = userService.create(new User(expectedUsername, expectedPassword));
 
-        //assert - asserting expected and result
+        //assert
+        // checking that the username is set correctly
+        assertEquals(result.getUsername(), expectedUsername);
 
-        userCheckEquals(expectedUser, result);
+        // checking that the password gets set correctly
+        assertNotEquals(expectedPassword, result.getPassword());
+        assertEquals(64, result.getPassword().length());
+
+        // checking that the salt is set correctly
+        assertEquals(16, result.getSalt().length());
+
+        // checking that the id is set correctly
+        assertNotNull(result.getId());
+        assertTrue(result.getId() > 0);
+
     }
 
     @Test
     void getAll() {
         //arrange
         userService.create(new User("tutu", "tamtam"));
-        int expectedSize = 2;
+        int expectedSize = 3;
 
         //act
         List<User> result = userService.getAll();
@@ -82,11 +93,61 @@ class UserServiceTest {
         assertTrue(result.isEmpty()); //we expect result is empty, that id is invalid.
     }
 
+    @Test
+    void checkLogin_InvalidLogin_InvalidPassword() {
+        // arrange
+        String username = "username1";
+        String password = "password";
+        userService.create(new User(username, password));
+
+        // act
+        User result = userService.checkLogin(new User(username, "not the correct password!"));
+
+        // assert
+        assertNull(result);
+    }
+
+    @Test
+    void checkLogin_InvalidLogin_InvalidUsername() {
+        // arrange
+        String username = "username2";
+        String password = "password";
+        userService.create(new User(username, password));
+
+        // act
+        User result = userService.checkLogin(new User("not the right password", password));
+
+        // assert
+        assertNull(result);
+    }
+
+    @Test
+    void checkLogin_valid() {
+        // arrange
+        String username = "username3";
+        String password = "password";
+        User expectedUser = userService.create(new User(username, password));
+
+        // act
+        User result = userService.checkLogin(new User(username, password));
+
+        // assert
+        userCheckEquals(expectedUser, result);
+    }
+
+
+    /************
+     *
+     * Helper functions
+     *
+     **************/
+
     // function to compare two users, that are expected to be the same
     void userCheckEquals(User expected,User result) {
         assertEquals(expected.getId(),result.getId());
         assertEquals(expected.getUsername(),result.getUsername());
         assertEquals(expected.getPassword(),result.getPassword());
+        assertEquals(expected.getSalt(),result.getSalt());
     }
 
 }
