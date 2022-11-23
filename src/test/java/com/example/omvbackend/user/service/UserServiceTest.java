@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -50,6 +51,36 @@ class UserServiceTest {
             assertFalse(usersChecked.contains(u)); //we expect at false, that the new list doesn contain user u
             usersChecked.add(u);                   //if the statement is false, we add user u - if true the test fails.
         }
+    }
+
+    @Test
+    void get_ValidId(){
+        //arrange
+        User expectedUser = userService.create(new User("camcam","yaas"));
+
+        //act
+        Optional<User> result = userService.get(expectedUser.getId());
+
+        //assert
+        //We check if the there is a user, og expects true.
+        assertTrue(result.isPresent());
+        //then we check what it is.
+        assertEquals(expectedUser.getId(),result.get().getId());
+        assertEquals(expectedUser.getUsername(),result.get().getUsername());
+        assertEquals(expectedUser.getPassword(),result.get().getPassword());
+    }
+
+    @Test
+    void get_NotValidId(){
+        //arrange
+        long invalidId = -1;
+
+        //act
+
+        Optional<User> result = userService.get(invalidId); //declare a optional user, og set it to be invalid on purpose.
+
+        //assert
+        assertTrue(result.isEmpty()); //we expect result is empty, that id is invalid.
     }
 
 }
