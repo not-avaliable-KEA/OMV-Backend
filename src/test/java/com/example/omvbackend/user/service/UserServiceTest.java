@@ -135,6 +135,46 @@ class UserServiceTest {
         userCheckEquals(expectedUser, result);
     }
 
+    @Test
+    void delete_invalidId() {
+        // arrange
+        // create user to delete
+        User expectedUser = userService.create(new User("deleteUser", "password"));
+
+        // get the expected length of users, minus 1 since we expect to remove the one we just created
+        int expectedLengthOfUsers = userService.getAll().size();
+
+
+        // act
+        boolean result = userService.delete(expectedUser.getId() + 1);
+        int currentLengthOfUsers = userService.getAll().size();
+
+
+        // assert
+        assertFalse(result);
+        assertEquals(expectedLengthOfUsers, currentLengthOfUsers);
+    }
+
+    @Test
+    void delete_validId() {
+        // arrange
+        // create user to delete
+        User expectedUser = userService.create(new User("deleteUser", "password"));
+
+        // get the expected length of users, minus 1 since we expect to remove the one we just created
+        int expectedLengthOfUsers = userService.getAll().size() - 1;
+
+
+        // act
+        boolean result = userService.delete(expectedUser.getId());
+        int currentLengthOfUsers = userService.getAll().size();
+
+
+        // assert
+        assertTrue(result);
+        assertEquals(expectedLengthOfUsers, currentLengthOfUsers);
+    }
+
 
     /************
      *
