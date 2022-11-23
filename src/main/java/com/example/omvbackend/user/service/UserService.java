@@ -46,6 +46,17 @@ public class UserService {
 
 
     //delete
+    public boolean delete(long id) {
+        Optional<User> optionalEmployee = get(id);
+
+        if (optionalEmployee.isPresent()) {
+            repo.delete(optionalEmployee.get());
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     // Checking of the password
     public User checkLogin(User user){
