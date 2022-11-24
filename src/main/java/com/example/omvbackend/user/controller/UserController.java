@@ -1,5 +1,7 @@
 package com.example.omvbackend.user.controller;
 
+import com.example.omvbackend.factory.DtoFactory;
+import com.example.omvbackend.user.DTOs.UserDTO;
 import com.example.omvbackend.user.model.User;
 import com.example.omvbackend.user.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -29,18 +31,18 @@ public class UserController {
 
     //get all
     @GetMapping
-    public ResponseEntity<List<User>> getAll(){
-        return ResponseEntity.ok().body(service.getAll());
+    public ResponseEntity<List<UserDTO>> getAll(){
+        return ResponseEntity.ok().body(DtoFactory.fromUsers(service.getAll()));
     }
 
     // get 1
     @GetMapping("/{id}")
-    public ResponseEntity<User> get(@PathVariable long id) {
+    public ResponseEntity<UserDTO> get(@PathVariable long id) {
         Optional<User> user = service.get(id);
 
         if (user.isEmpty()) return ResponseEntity.badRequest().body(null);
 
-        return ResponseEntity.ok().body(user.get());
+        return ResponseEntity.ok().body(DtoFactory.fromUser(user.get()));
     }
 
     // update
@@ -54,7 +56,7 @@ public class UserController {
             return ResponseEntity.badRequest().body("Bad id");
         }
 
-        return ResponseEntity.ok().body(updatedUser);
+        return ResponseEntity.ok().body(DtoFactory.fromUser(updatedUser));
     }
 
     @DeleteMapping("/{id}")
@@ -64,13 +66,13 @@ public class UserController {
 
     // login
     @PostMapping("/login")
-    public ResponseEntity<User> login(HttpSession session, @Valid @RequestBody User user){
+    public ResponseEntity<UserDTO> login(HttpSession session, @Valid @RequestBody User user){
         User loginUser = service.checkLogin(user);
 
         if (loginUser == null) return ResponseEntity.ok().body(null);
 
         session.setAttribute("user", loginUser);
-        return ResponseEntity.ok().body(loginUser);
+        return ResponseEntity.ok().body(DtoFactory.fromUser(loginUser));
     }
 
     // logout
