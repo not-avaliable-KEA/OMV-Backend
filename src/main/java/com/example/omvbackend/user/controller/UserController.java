@@ -20,13 +20,13 @@ public class UserController {
     public UserController(UserService service) {
         this.service = service;
     }
-    //create controller
+    //create
     @PostMapping
     public ResponseEntity<User> create(@Valid @RequestBody User user){
         return ResponseEntity.ok().body(service.create(user));
     }
 
-    //show all controller
+    //get all
     @GetMapping
     public ResponseEntity<List<User>> getAll(){
         return ResponseEntity.ok().body(service.getAll());
@@ -39,5 +39,20 @@ public class UserController {
 
         if (user.isEmpty()) return ResponseEntity.badRequest().body(null);
 
+        return ResponseEntity.ok().body(user.get());
+    }
 
+    // update
+    @PatchMapping("/{id}")
+    public ResponseEntity update(@PathVariable long id, @Valid @RequestBody User user) {
+        user.setId(id);
+
+        User updatedUser = service.update(user);
+
+        if (updatedUser == null) {
+            return ResponseEntity.badRequest().body("Bad id");
+        }
+
+        return ResponseEntity.ok().body(user);
+    }
 }
