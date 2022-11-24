@@ -180,12 +180,14 @@ class UserServiceTest {
         //arrange
         User createdUser = userService.create(new User("yas","naaj"));
         String oldSalt = createdUser.getSalt();
-        String oldPassword = createdUser.getPassword();
+        String oldHash = createdUser.getPassword();
+        String oldPassword = "naaj";
 
 
         String expectedName= "tis";
         User forUpdatedUser = new User();
         forUpdatedUser.setUsername(expectedName);
+        forUpdatedUser.setId(createdUser.getId());
 
         //act
         User result = userService.update(forUpdatedUser);
@@ -198,10 +200,13 @@ class UserServiceTest {
 
         // checks that the password has not been changed
         assertEquals(oldSalt, result.getSalt());
-        assertEquals(oldPassword, result.getPassword());
+        assertEquals(oldHash, result.getPassword());
 
         // checks that we can login with the new password
         User loginCheck = new User(expectedName, oldPassword);
+
+        System.out.println(expectedName + ", " + oldPassword);
+
         assertEquals(userService.checkLogin(loginCheck).getId(), createdUser.getId());
     }
 
@@ -216,6 +221,7 @@ class UserServiceTest {
         String expectedPassword= "movie";
         User forUpdatedUser = new User();
         forUpdatedUser.setPassword(expectedPassword);
+        forUpdatedUser.setId(createdUser.getId());
 
 
         //act
@@ -239,6 +245,41 @@ class UserServiceTest {
 
         // checks that we can login with the new password
         User loginCheck = new User(oldUsername, expectedPassword);
+        assertEquals(userService.checkLogin(loginCheck).getId(), createdUser.getId());
+    }
+
+    @Test
+    void update_usernameAndPassword(){
+        //arrange
+        User createdUser = userService.create(new User("yas","naaj"));
+        String oldSalt = createdUser.getSalt();
+        String oldPassword = createdUser.getPassword();
+
+        String expectedUsername = "newUsername";
+        String expectedPassword = "newPassword";
+        User forUpdatedUser = new User(expectedUsername, expectedPassword);
+        forUpdatedUser.setId(createdUser.getId());
+
+        //act
+        User result = userService.update(forUpdatedUser);
+
+        //assert
+        //checks that we do not get null back
+        assertNotNull(result);
+
+        //checks that the username is still the same
+        assertEquals(expectedUsername, result.getUsername());
+
+        // checks that the password is not the same as the old one and that it follows
+        assertNotEquals(oldPassword, result.getPassword());
+        assertEquals(64, result.getPassword().length());
+
+        // checks that the salt has been set, and it has the correct length
+        assertNotEquals(oldSalt, result.getSalt());
+        assertEquals(16, result.getSalt().length());
+
+        // checks that we can login with the new password
+        User loginCheck = new User(expectedUsername, expectedPassword);
         assertEquals(userService.checkLogin(loginCheck).getId(), createdUser.getId());
     }
 
