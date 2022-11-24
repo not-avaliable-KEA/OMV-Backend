@@ -213,7 +213,7 @@ class UserServiceTest {
     @Test
     void update_password(){
         //arrange
-        User createdUser = userService.create(new User("yas","naaj"));
+        User createdUser = userService.create(new User("yas1","naaj"));
         String oldUsername = createdUser.getUsername();
         String oldSalt = createdUser.getSalt();
         String oldPassword = createdUser.getPassword();
@@ -251,7 +251,7 @@ class UserServiceTest {
     @Test
     void update_usernameAndPassword(){
         //arrange
-        User createdUser = userService.create(new User("yas","naaj"));
+        User createdUser = userService.create(new User("yas2","naaj"));
         String oldSalt = createdUser.getSalt();
         String oldPassword = createdUser.getPassword();
 
@@ -281,6 +281,27 @@ class UserServiceTest {
         // checks that we can login with the new password
         User loginCheck = new User(expectedUsername, expectedPassword);
         assertEquals(userService.checkLogin(loginCheck).getId(), createdUser.getId());
+    }
+
+    @Test
+    void update_wrongId(){
+        //arrange
+        User createdUser = userService.create(new User("yas3","naaj"));
+        String oldUsername = createdUser.getUsername();
+        String oldSalt = createdUser.getSalt();
+        String oldPassword = createdUser.getPassword();
+
+        String expectedUsername = "newUsername";
+        String expectedPassword = "newPassword";
+        User forUpdatedUser = new User(expectedUsername, expectedPassword);
+        forUpdatedUser.setId(createdUser.getId() +1);
+
+        //act
+        User result = userService.update(forUpdatedUser);
+
+        //assert
+        //checks that we do not get null back
+        assertNull(result);
     }
 
 
