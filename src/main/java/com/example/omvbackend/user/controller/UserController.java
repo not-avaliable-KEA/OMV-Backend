@@ -32,6 +32,12 @@ public class UserController {
         return ResponseEntity.ok().body(service.getAll());
     }
 
+    // get 1
+    @GetMapping("/{id}")
+    public ResponseEntity<User> get(@PathVariable long id) {
+        Optional<User> user = service.get(id);
+
+        if (user.isEmpty()) return ResponseEntity.badRequest().body(null);
 
 
 }
