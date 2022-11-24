@@ -44,7 +44,23 @@ public class UserService {
 
     //update
     public User update(User user){
-         return null;
+         Optional<User> userFromDatabase = repo.findById(user.getId());
+
+         if (userFromDatabase.isEmpty()) return null;
+
+         if (user.getUsername() != null && !user.getUsername().trim().isEmpty()) {
+             userFromDatabase.get().setUsername(user.getUsername());
+         }
+
+         if (user.getPassword() != null && !user.getPassword().trim().isEmpty()) {
+             String salt = generateSalt();
+             String pepper = generatePepper();
+
+             userFromDatabase.get().setSalt(salt);
+             userFromDatabase.get().setPassword(hashPassword(pepper, user.getPassword(), salt));
+         }
+
+         return repo.save(userFromDatabase.get());
      }
 
 
