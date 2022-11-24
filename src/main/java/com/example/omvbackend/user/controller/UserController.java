@@ -5,12 +5,13 @@ import com.example.omvbackend.user.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "http://127.0.0.1", allowCredentials = "true")
 @RequestMapping("api/v1/user")
 public class UserController {
 
@@ -53,11 +54,29 @@ public class UserController {
             return ResponseEntity.badRequest().body("Bad id");
         }
 
-        return ResponseEntity.ok().body(user);
+        return ResponseEntity.ok().body(updatedUser);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable long id) {
         return ResponseEntity.ok().body(service.delete(id));
+    }
+
+    // login
+    @PostMapping("/login")
+    public ResponseEntity<User> login(HttpSession session, @Valid @RequestBody User user){
+        User loginUser = service.checkLogin(user);
+
+        if (loginUser == null) return ResponseEntity.ok().body(null);
+
+        session.setAttribute("user", loginUser);
+        return ResponseEntity.ok().body(loginUser);
+    }
+
+    // logout
+    @GetMapping("/logout")
+    public ResponseEntity logout(HttpSession session){
+        session.invalidate();
+        return ResponseEntity.ok().body("Logout complete");
     }
 }
