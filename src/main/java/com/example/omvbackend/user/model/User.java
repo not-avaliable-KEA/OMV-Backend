@@ -1,12 +1,15 @@
 package com.example.omvbackend.user.model;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
-@Data
+@Table(name="users")
+@Getter
+@Setter
 @NoArgsConstructor
 public class User {
     @Id
@@ -16,6 +19,10 @@ public class User {
 
     private String username;
     private String password;
+    private String salt;
 
-
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 }
