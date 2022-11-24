@@ -44,14 +44,16 @@ public class UserService {
 
     //update
     public User update(User user){
+         // gets user from database, and returns if null
          Optional<User> userFromDatabase = repo.findById(user.getId());
-
          if (userFromDatabase.isEmpty()) return null;
 
+         // sets the new username if it is set in user
          if (user.getUsername() != null && !user.getUsername().trim().isEmpty()) {
              userFromDatabase.get().setUsername(user.getUsername());
          }
 
+         // if the password is not null(and not empty), then generate the new password
          if (user.getPassword() != null && !user.getPassword().trim().isEmpty()) {
              String salt = generateSalt();
              String pepper = generatePepper();
@@ -60,6 +62,7 @@ public class UserService {
              userFromDatabase.get().setPassword(hashPassword(pepper, user.getPassword(), salt));
          }
 
+         // save and return the user
          return repo.save(userFromDatabase.get());
      }
 
