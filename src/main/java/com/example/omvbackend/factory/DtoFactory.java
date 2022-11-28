@@ -68,4 +68,10 @@ public class DtoFactory
         return blogPost;
     }
 
+    public static List<BlogPostDTO> fromBlogPosts(List<BlogPost> blogPosts) {
+        return blogPosts.stream()
+                .map(DtoFactory::fromBlogPost)
+                .collect(Collectors.toList());
+    }
+
 }
