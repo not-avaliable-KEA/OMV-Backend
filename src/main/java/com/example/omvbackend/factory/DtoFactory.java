@@ -1,10 +1,14 @@
 package com.example.omvbackend.factory;
 
 import com.example.omvbackend.OmvBackendApplication;
+import com.example.omvbackend.blogPost.DTOs.BlogPostDTO;
+import com.example.omvbackend.blogPost.model.BlogPost;
 import com.example.omvbackend.user.DTOs.UserDTO;
 import com.example.omvbackend.user.model.User;
 import org.modelmapper.ModelMapper;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,6 +16,12 @@ public class DtoFactory
 {
     private static ModelMapper modelMapper = OmvBackendApplication.modelMapper();
 
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+
+    /********
+     * User
+     ********/
     public static UserDTO fromUser(User user) {
         return modelMapper.map(user, UserDTO.class);
     }
@@ -24,6 +34,38 @@ public class DtoFactory
         return users.stream()
                 .map(DtoFactory::fromUser)
                 .collect(Collectors.toList());
+    }
+
+
+    /***********
+     * BlogPost
+     ***********/
+
+    public static BlogPostDTO fromBlogPost(BlogPost blogPost) {
+        BlogPostDTO dto = modelMapper.map(blogPost, BlogPostDTO.class);
+
+        LocalDateTime timeUnformated = LocalDateTime.parse(dto.getCreatedDate());
+
+        dto.setCreatedDate(timeUnformated.format(formatter));
+
+        return dto;
+    }
+
+    public static BlogPost fromBlogPostDTO(BlogPostDTO blogPostDTO) {
+        // create new empty blogpost
+        BlogPost blogPost = new BlogPost();
+
+        // parse and set createDate
+        LocalDateTime dateTime = LocalDateTime.parse(blogPostDTO.getCreatedDate(), formatter);
+        blogPost.setCreatedDate(dateTime);
+
+        // set the rest of the values
+        blogPost.setId(blogPostDTO.getId());
+        blogPost.setText(blogPostDTO.getText());
+        blogPost.setPicture(blogPostDTO.getPicture());
+
+        //return blogPost.
+        return blogPost;
     }
 
 }
