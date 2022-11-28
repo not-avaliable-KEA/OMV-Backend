@@ -5,6 +5,8 @@ import com.example.omvbackend.blogPost.repository.BlogPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BlogPostService {
 
@@ -16,4 +18,7 @@ public class BlogPostService {
         return repository.save(blogPost);
     }
 
+    public List<BlogPost> getAll() {
+        return repository.findAll();
+    }
 }

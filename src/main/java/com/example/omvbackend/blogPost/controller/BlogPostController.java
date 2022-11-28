@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = {"http://127.0.0.1:5500", "https://white-sand-06fa66003.2.azurestaticapps.net/"}, allowCredentials = "true")
@@ -26,6 +27,11 @@ public class BlogPostController {
         System.out.println(blog.getId());
 
         return ResponseEntity.ok().body(blog);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<BlogPostDTO>> getAll(){
+        return ResponseEntity.ok().body(DtoFactory.fromBlogPosts(service.getAll()));
     }
 
 
