@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = {"http://127.0.0.1:5500", "https://white-sand-06fa66003.2.azurestaticapps.net/"}, allowCredentials = "true")
@@ -34,5 +35,13 @@ public class BlogPostController {
         return ResponseEntity.ok().body(DtoFactory.fromBlogPosts(service.getAll()));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<BlogPostDTO> get(@PathVariable Long id){
+        Optional<BlogPost> blogPostOptional = service.get(id);
 
+        BlogPost blogPost = null;
+        if(blogPostOptional.isPresent())  blogPost = blogPostOptional.get();
+
+        return ResponseEntity.ok().body(DtoFactory.fromBlogPost(blogPost));
+    }
 }
