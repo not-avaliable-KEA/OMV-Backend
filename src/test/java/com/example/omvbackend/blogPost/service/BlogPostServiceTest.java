@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -69,5 +71,60 @@ class BlogPostServiceTest {
         assertFalse(service.get(toBeDeleted + 1).isPresent());
         assertTrue(service.get(toBeDeleted).isPresent());
     }
+
+    @Test
+    void getAll(){
+        // arrange
+        int expectedLength = 3;
+        service.create(new BlogPost(LocalDateTime.now(), "Ny musik er udkommet", "Dette er coveret"));
+        service.create(new BlogPost(LocalDateTime.now(), "Ny musik er udkommet", "Dette er coveret"));
+
+        // act
+        List<BlogPost> result = service.getAll();
+
+        // assert
+        assertEquals(expectedLength, result.size());
+    }
+
+    @Test
+    void getById(){
+
+        // arrange
+        String text = "Ny Post";
+        String picture = "Nyt cover billede";
+        LocalDateTime createdDate = LocalDateTime.now();
+        long expectedID = service.create(new BlogPost(createdDate, text, picture)).getId();
+
+        // act
+
+        Optional<BlogPost> result = service.get(expectedID);
+
+        // assert
+
+        assertTrue(result.isPresent());
+
+        assertEquals(expectedID, result.get().getId());
+        assertEquals(text,result.get().getText());
+        assertEquals(picture,result.get().getPicture());
+        assertEquals(createdDate,result.get().getCreatedDate());
+    }
+
+    @Test
+    void getByInvalidId(){
+        // arrange
+        String text = "Ny Post";
+        String picture = "Nyt cover billede";
+        LocalDateTime createdDate = LocalDateTime.now();
+        long expectedID = service.create(new BlogPost(createdDate, text, picture)).getId();
+        // act
+
+        Optional<BlogPost> result = service.get(expectedID + 1);
+
+        // assert
+
+        assertTrue(result.isEmpty());
+    }
+
+    
 
 }
