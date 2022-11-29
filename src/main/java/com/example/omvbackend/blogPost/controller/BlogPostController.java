@@ -22,11 +22,7 @@ public class BlogPostController {
 
     @PostMapping
     public ResponseEntity<BlogPost> create(@Valid @RequestBody BlogPostDTO blogPost){
-
-        BlogPost blog = service.create(DtoFactory.fromBlogPostDTO(blogPost));
-        System.out.println(blog.getId());
-
-        return ResponseEntity.ok().body(blog);
+        return ResponseEntity.ok().body(service.create(DtoFactory.fromBlogPostDTO(blogPost)));
     }
 
     @GetMapping

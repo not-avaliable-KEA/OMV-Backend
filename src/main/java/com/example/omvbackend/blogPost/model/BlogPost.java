@@ -1,6 +1,5 @@
 package com.example.omvbackend.blogPost.model;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,13 +19,15 @@ public class BlogPost {
 
     private LocalDateTime createdDate;
 
-    private String Text;
+    private String text;
 
     private String picture;
+    private String title;
 
-    public BlogPost(LocalDateTime createdDate, String text, String picture) {
+    public BlogPost(LocalDateTime createdDate, String title, String text, String picture) {
         this.createdDate = createdDate;
-        Text = text;
+        this.title = title;
+        this.text = text;
         this.picture = picture;
     }
 }

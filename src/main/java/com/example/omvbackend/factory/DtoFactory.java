@@ -63,6 +63,7 @@ public class DtoFactory
 
         // set the rest of the values
         blogPost.setId(blogPostDTO.getId());
+        blogPost.setTitle(blogPostDTO.getTitle());
         blogPost.setText(blogPostDTO.getText());
         blogPost.setPicture(blogPostDTO.getPicture());
 

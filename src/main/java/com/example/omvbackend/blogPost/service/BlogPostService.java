@@ -2,7 +2,6 @@ package com.example.omvbackend.blogPost.service;
 
 import com.example.omvbackend.blogPost.model.BlogPost;
 import com.example.omvbackend.blogPost.repository.BlogPostRepository;
-import net.bytebuddy.dynamic.DynamicType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +38,9 @@ public class BlogPostService {
 
         if (blogPost.getPicture() != null && !blogPost.getPicture().trim().isEmpty())
             optionalBlogPost.get().setPicture(blogPost.getPicture().trim());
+
+        if (blogPost.getTitle() != null && !blogPost.getTitle().trim().isEmpty())
+            optionalBlogPost.get().setTitle(blogPost.getTitle().trim());
 
         if (blogPost.getCreatedDate() != null)
             optionalBlogPost.get().setCreatedDate(blogPost.getCreatedDate());

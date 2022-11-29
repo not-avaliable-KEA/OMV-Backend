@@ -12,7 +12,9 @@ public class BlogPostDTO {
 
     private String createdDate;
 
-    private String Text;
+    private String text;
+
+    private String title;
 
     private String picture;
 }
