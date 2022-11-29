@@ -313,4 +313,22 @@ class BlogPostServiceTest {
         assertEquals(expectedPicture, result.get().getPicture());
         assertEquals(expectedCreateDate, result.get().getCreatedDate());
     }
+
+    @Test
+    void update_WrongId() {
+        // arrange
+        String expectedText = "Expected text";
+        String expectedPicture = "Expected Picture";
+        LocalDateTime expectedCreateDate = LocalDateTime.now();
+        Long id = 1 + service.create(new BlogPost(expectedCreateDate.minusDays(10), expectedText + "not the same", expectedPicture + "not the same")).getId();
+
+        BlogPost updateElement = new BlogPost();
+        updateElement.setId(id);
+
+        // act
+        Optional<BlogPost> result = service.update(updateElement);
+
+        // assert
+        assertTrue(result.isEmpty());
+    }
 }
