@@ -2,6 +2,7 @@ package com.example.omvbackend.blogPost.service;
 
 import com.example.omvbackend.blogPost.model.BlogPost;
 import com.example.omvbackend.blogPost.repository.BlogPostRepository;
+import net.bytebuddy.dynamic.DynamicType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,23 @@ public class BlogPostService {
 
     public Optional<BlogPost> get(Long id) {
         return repository.findById(id);
+    }
+
+    // update
+    public Optional<BlogPost> update(BlogPost blogPost) {
+        Optional<BlogPost> optionalBlogPost = repository.findById(blogPost.getId());
+        if (optionalBlogPost.isEmpty()) return Optional.empty();
+
+        if(blogPost.getText() != null && !blogPost.getText().trim().isEmpty())
+            optionalBlogPost.get().setText(blogPost.getText().trim());
+
+        if (blogPost.getPicture() != null && !blogPost.getPicture().trim().isEmpty())
+            optionalBlogPost.get().setPicture(blogPost.getPicture().trim());
+
+        if (blogPost.getCreatedDate() != null)
+            optionalBlogPost.get().setCreatedDate(blogPost.getCreatedDate());
+
+        return Optional.of(repository.save(optionalBlogPost.get()));
     }
 
     // delete
