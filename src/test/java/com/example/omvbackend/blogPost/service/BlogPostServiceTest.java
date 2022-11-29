@@ -25,7 +25,6 @@ class BlogPostServiceTest {
         // act
         BlogPost result = service.create(new BlogPost(createdDate, text, picture));
 
-        System.out.println(result.getId());
         // assert
         assertNotNull(result);
 
