@@ -56,8 +56,10 @@ public class DtoFactory
         BlogPost blogPost = new BlogPost();
 
         // parse and set createDate
-        LocalDateTime dateTime = LocalDateTime.parse(blogPostDTO.getCreatedDate(), formatter);
-        blogPost.setCreatedDate(dateTime);
+        if (blogPostDTO.getCreatedDate() != null && !blogPostDTO.getCreatedDate().trim().isEmpty()) {
+            LocalDateTime dateTime = LocalDateTime.parse(blogPostDTO.getCreatedDate(), formatter);
+            blogPost.setCreatedDate(dateTime);
+        }
 
         // set the rest of the values
         blogPost.setId(blogPostDTO.getId());

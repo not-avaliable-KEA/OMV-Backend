@@ -23,7 +23,6 @@ public class BlogPostController {
     @PostMapping
     public ResponseEntity<BlogPost> create(@Valid @RequestBody BlogPostDTO blogPost){
 
-
         BlogPost blog = service.create(DtoFactory.fromBlogPostDTO(blogPost));
         System.out.println(blog.getId());
 
@@ -43,5 +42,25 @@ public class BlogPostController {
         if(blogPostOptional.isPresent())  blogPost = blogPostOptional.get();
 
         return ResponseEntity.ok().body(DtoFactory.fromBlogPost(blogPost));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<BlogPost> update(@Valid @RequestBody BlogPostDTO blogPostDTO, @PathVariable long id) {
+        BlogPost blogPost = DtoFactory.fromBlogPostDTO(blogPostDTO);
+
+        blogPost.setId(id);
+
+        Optional<BlogPost> result = service.update(blogPost);
+
+        if (result.isPresent()) {
+            return ResponseEntity.ok().body(result.get());
+        } else {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> delete(@PathVariable long id) {
+        return ResponseEntity.ok().body(service.delete(id));
     }
 }
