@@ -125,6 +125,192 @@ class BlogPostServiceTest {
         assertTrue(result.isEmpty());
     }
 
-    
+    @Test
+    void update_NoInfo() {
+        // arrange
+        String expectedText = "Expected text";
+        String expectedPicture = "Expected Picture";
+        LocalDateTime expectedCreateDate = LocalDateTime.now();
+        Long id = service.create(new BlogPost(expectedCreateDate, expectedText, expectedPicture)).getId();
 
+        BlogPost updateElement = new BlogPost();
+        updateElement.setId(id);
+
+        // act
+        Optional<BlogPost> result = service.update(updateElement);
+
+        // assert
+        assertTrue(result.isPresent());
+
+        assertEquals(expectedText, result.get().getText());
+        assertEquals(expectedPicture, result.get().getPicture());
+        assertEquals(expectedCreateDate, result.get().getCreatedDate());
+    }
+
+    @Test
+    void update_OnlyText() {
+        // arrange
+        String expectedText = "Expected text";
+        String expectedPicture = "Expected Picture";
+        LocalDateTime expectedCreateDate = LocalDateTime.now();
+        Long id = service.create(new BlogPost(expectedCreateDate, expectedText + "not the same", expectedPicture)).getId();
+
+        BlogPost updateElement = new BlogPost();
+        updateElement.setId(id);
+        updateElement.setText(expectedText);
+
+        // act
+        Optional<BlogPost> result = service.update(updateElement);
+
+        // assert
+        assertTrue(result.isPresent());
+
+        assertEquals(expectedText, result.get().getText());
+        assertEquals(expectedPicture, result.get().getPicture());
+        assertEquals(expectedCreateDate, result.get().getCreatedDate());
+    }
+
+    @Test
+    void update_OnlyPicture() {
+        // arrange
+        String expectedText = "Expected text";
+        String expectedPicture = "Expected Picture";
+        LocalDateTime expectedCreateDate = LocalDateTime.now();
+        Long id = service.create(new BlogPost(expectedCreateDate, expectedText, expectedPicture + "not the same")).getId();
+
+        BlogPost updateElement = new BlogPost();
+        updateElement.setId(id);
+        updateElement.setPicture(expectedPicture);
+
+        // act
+        Optional<BlogPost> result = service.update(updateElement);
+
+        // assert
+        assertTrue(result.isPresent());
+
+        assertEquals(expectedText, result.get().getText());
+        assertEquals(expectedPicture, result.get().getPicture());
+        assertEquals(expectedCreateDate, result.get().getCreatedDate());
+    }
+
+    @Test
+    void update_OnlyCreatedDate() {
+        // arrange
+        String expectedText = "Expected text";
+        String expectedPicture = "Expected Picture";
+        LocalDateTime expectedCreateDate = LocalDateTime.now();
+        Long id = service.create(new BlogPost(expectedCreateDate.minusDays(10), expectedText, expectedPicture)).getId();
+
+        BlogPost updateElement = new BlogPost();
+        updateElement.setId(id);
+        updateElement.setCreatedDate(expectedCreateDate);
+
+        // act
+        Optional<BlogPost> result = service.update(updateElement);
+
+        // assert
+        assertTrue(result.isPresent());
+
+        assertEquals(expectedText, result.get().getText());
+        assertEquals(expectedPicture, result.get().getPicture());
+        assertEquals(expectedCreateDate, result.get().getCreatedDate());
+    }
+
+    @Test
+    void update_TextAndPicture() {
+        // arrange
+        String expectedText = "Expected text";
+        String expectedPicture = "Expected Picture";
+        LocalDateTime expectedCreateDate = LocalDateTime.now();
+        Long id = service.create(new BlogPost(expectedCreateDate, expectedText + "not the same", expectedPicture + "not the same")).getId();
+
+        BlogPost updateElement = new BlogPost();
+        updateElement.setId(id);
+        updateElement.setText(expectedText);
+        updateElement.setPicture(expectedPicture);
+
+        // act
+        Optional<BlogPost> result = service.update(updateElement);
+
+        // assert
+        assertTrue(result.isPresent());
+
+        assertEquals(expectedText, result.get().getText());
+        assertEquals(expectedPicture, result.get().getPicture());
+        assertEquals(expectedCreateDate, result.get().getCreatedDate());
+    }
+
+    @Test
+    void update_TextAndCreateDate() {
+        // arrange
+        String expectedText = "Expected text";
+        String expectedPicture = "Expected Picture";
+        LocalDateTime expectedCreateDate = LocalDateTime.now();
+        Long id = service.create(new BlogPost(expectedCreateDate.minusDays(10), expectedText + "not the same", expectedPicture)).getId();
+
+        BlogPost updateElement = new BlogPost();
+        updateElement.setId(id);
+        updateElement.setText(expectedText);
+        updateElement.setCreatedDate(expectedCreateDate);
+
+        // act
+        Optional<BlogPost> result = service.update(updateElement);
+
+        // assert
+        assertTrue(result.isPresent());
+
+        assertEquals(expectedText, result.get().getText());
+        assertEquals(expectedPicture, result.get().getPicture());
+        assertEquals(expectedCreateDate, result.get().getCreatedDate());
+    }
+
+    @Test
+    void update_PictureAndCreateDate() {
+        // arrange
+        String expectedText = "Expected text";
+        String expectedPicture = "Expected Picture";
+        LocalDateTime expectedCreateDate = LocalDateTime.now();
+        Long id = service.create(new BlogPost(expectedCreateDate.minusDays(10), expectedText, expectedPicture + "not the same")).getId();
+
+        BlogPost updateElement = new BlogPost();
+        updateElement.setId(id);
+        updateElement.setPicture(expectedPicture);
+        updateElement.setCreatedDate(expectedCreateDate);
+
+        // act
+        Optional<BlogPost> result = service.update(updateElement);
+
+        // assert
+        assertTrue(result.isPresent());
+
+        assertEquals(expectedText, result.get().getText());
+        assertEquals(expectedPicture, result.get().getPicture());
+        assertEquals(expectedCreateDate, result.get().getCreatedDate());
+    }
+
+
+    @Test
+    void update_AllInfo() {
+        // arrange
+        String expectedText = "Expected text";
+        String expectedPicture = "Expected Picture";
+        LocalDateTime expectedCreateDate = LocalDateTime.now();
+        Long id = service.create(new BlogPost(expectedCreateDate.minusDays(10), expectedText + "not the same", expectedPicture + "not the same")).getId();
+
+        BlogPost updateElement = new BlogPost();
+        updateElement.setId(id);
+        updateElement.setText(expectedText);
+        updateElement.setPicture(expectedPicture);
+        updateElement.setCreatedDate(expectedCreateDate);
+
+        // act
+        Optional<BlogPost> result = service.update(updateElement);
+
+        // assert
+        assertTrue(result.isPresent());
+
+        assertEquals(expectedText, result.get().getText());
+        assertEquals(expectedPicture, result.get().getPicture());
+        assertEquals(expectedCreateDate, result.get().getCreatedDate());
+    }
 }
