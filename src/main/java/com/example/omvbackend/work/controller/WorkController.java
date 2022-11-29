@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @CrossOrigin //alle har access
 @RestController
-@RequestMapping("/api/v1/covers")
+@RequestMapping("/api/v1/work")
 
 public class WorkController {
     private final WorkService service;
