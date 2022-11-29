@@ -19,11 +19,21 @@ public class BlogPostService {
         return repository.save(blogPost);
     }
 
+    // Read
     public List<BlogPost> getAll() {
         return repository.findAll();
     }
 
     public Optional<BlogPost> get(Long id) {
         return repository.findById(id);
+    }
+
+    // delete
+    public Boolean delete(Long id) {
+        Optional<BlogPost> optionalBlogPost = repository.findById(id);
+        if (optionalBlogPost.isEmpty()) return false;
+
+        repository.delete(optionalBlogPost.get());
+        return true;
     }
 }

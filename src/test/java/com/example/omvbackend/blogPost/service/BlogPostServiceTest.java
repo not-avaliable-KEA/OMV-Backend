@@ -37,4 +37,38 @@ class BlogPostServiceTest {
         assertTrue(result.getId() > 0);
     }
 
+    @Test
+    void delete_ValidId() {
+        // arrange
+        BlogPost toBeDeleted = service.create(new BlogPost(LocalDateTime.now(),
+                                                      "To be deleted",
+                                                    "Picture to be deleted"));
+
+        // act
+        boolean result = service.delete(toBeDeleted.getId());
+
+        // assert
+        assertTrue(result);
+
+        assertFalse(service.get(toBeDeleted.getId()).isPresent());
+    }
+
+    @Test
+    void delete_InvalidId() {
+        // arrange
+        long toBeDeleted = service.create(new BlogPost(LocalDateTime.now(),
+                "To be deleted",
+                "Picture to be deleted"))
+                .getId();
+
+        // act
+        boolean result = service.delete(toBeDeleted + 1);
+
+        // assert
+        assertFalse(result);
+
+        assertFalse(service.get(toBeDeleted + 1).isPresent());
+        assertTrue(service.get(toBeDeleted).isPresent());
+    }
+
 }
