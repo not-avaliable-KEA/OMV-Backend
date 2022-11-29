@@ -3,7 +3,7 @@ package com.example.omvbackend.factory;
 import com.example.omvbackend.OmvBackendApplication;
 import com.example.omvbackend.user.DTOs.UserDTO;
 import com.example.omvbackend.user.model.User;
-import com.example.omvbackend.work.DTOs.WorkDTO;
+import com.example.omvbackend.work.DTOs.CoverListDTO;
 import com.example.omvbackend.work.model.Work;
 import com.example.omvbackend.work.service.WorkService;
 import org.modelmapper.ModelMapper;
@@ -35,17 +35,17 @@ public class DtoFactory
         DtoFactory.workService = workService;
     }
 
-    public static WorkDTO fromWork(Work work)
+    public static CoverListDTO fromWork(Work work)
     {
-        return modelMapper.map(work, WorkDTO.class);
+        return modelMapper.map(work, CoverListDTO.class);
     }
 
-    public static List<WorkDTO> fromWorks(List<Work> works){
-        return works.stream().map(work -> modelMapper.map(work, WorkDTO.class))
+    public static List<CoverListDTO> fromWorks(List<Work> works){
+        return works.stream().map(work -> modelMapper.map(work, CoverListDTO.class))
                 .collect(Collectors.toList());
     }
 
-    public static Work fromWorkDTO(WorkDTO workDTO) {
+    public static Work fromWorkDTO(CoverListDTO workDTO) {
         return modelMapper.map(workDTO, Work.class);
     }
 
