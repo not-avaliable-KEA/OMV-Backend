@@ -75,7 +75,7 @@ class BlogPostServiceTest {
     @Test
     void getAll(){
         // arrange
-        int expectedLength = 3;
+        int expectedLength = 4;
         service.create(new BlogPost(LocalDateTime.now(), "Ny musik er udkommet", "Dette er coveret"));
         service.create(new BlogPost(LocalDateTime.now(), "Ny musik er udkommet", "Dette er coveret"));
 
