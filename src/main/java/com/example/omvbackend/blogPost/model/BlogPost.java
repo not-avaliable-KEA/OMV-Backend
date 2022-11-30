@@ -19,8 +19,10 @@ public class BlogPost {
 
     private LocalDateTime createdDate;
 
+    @Column(columnDefinition="MEDIUMTEXT")
     private String text;
 
+    @Column(columnDefinition="MEDIUMTEXT")
     private String picture;
     private String title;
 
