@@ -42,9 +42,9 @@ public WorkController(WorkService service){
     }
 
     @PostMapping()
-    public ResponseEntity<CoverListDTO> create(@Valid @RequestBody CoverListDTO workDTO){
+    public ResponseEntity<CoverListDTO> create(@RequestBody Work work){
 
-        Work item = service.create(DtoFactory.fromWorkDTO(workDTO));
+        Work item = service.create(work);
         return ResponseEntity.ok().body(DtoFactory.fromWork(item));
     }
 
