@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-@CrossOrigin //alle har access
+@CrossOrigin
 @RestController
 @RequestMapping("/api/v1/work")
 
