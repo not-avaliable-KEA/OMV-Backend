@@ -33,13 +33,15 @@ public class UserController {
 
     //get all
     @GetMapping
-    public ResponseEntity<List<UserDTO>> getAll(){
+    public ResponseEntity<List<UserDTO>> getAll(HttpSession session){
+        if (session.getAttribute("user") == null) return ResponseEntity.badRequest().body(null);
         return ResponseEntity.ok().body(DtoFactory.fromUsers(service.getAll()));
     }
 
     // get 1
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> get(@PathVariable long id) {
+    public ResponseEntity<UserDTO> get(HttpSession session, @PathVariable long id) {
+        if (session.getAttribute("user") == null) return ResponseEntity.badRequest().body(null);
         Optional<User> user = service.get(id);
 
         if (user.isEmpty()) return ResponseEntity.badRequest().body(null);
