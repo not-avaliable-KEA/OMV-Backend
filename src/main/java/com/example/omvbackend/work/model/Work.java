@@ -2,6 +2,7 @@ package com.example.omvbackend.work.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.*;
@@ -9,8 +10,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @NoArgsConstructor
-public class Work
-{
+public class Work {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -20,11 +20,11 @@ public class Work
     private String artistName;
     private String description;
     private String image;
-    private String releaseDate;
+    private LocalDateTime releaseDate;
     private String writer;
     private String master;
 
-    public Work(String singleName, String producerName, String artistName, String description, String image, String releaseDate, String writer, String master) {
+    public Work(String singleName, String producerName, String artistName, String description, String image, LocalDateTime releaseDate, String writer, String master) {
         this.singleName = singleName;
         this.producerName = producerName;
         this.artistName = artistName;
@@ -37,7 +37,7 @@ public class Work
 
     //
 
-    public Work update(Work work){
+    public Work update(Work work) {
         this.singleName = work.getSingleName();
         this.producerName = work.getProducerName();
         this.artistName = work.getArtistName();
@@ -48,7 +48,9 @@ public class Work
         this.master = work.getMaster();
         return this;
     }
+
 }
+
 
 
 

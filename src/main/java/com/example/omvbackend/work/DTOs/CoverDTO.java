@@ -9,7 +9,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CoverListDTO {
+public class CoverDTO {
 
     private long id;
     private String image;

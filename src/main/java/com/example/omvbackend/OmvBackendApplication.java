@@ -38,7 +38,7 @@ public class OmvBackendApplication {
     {
         return (args) -> {
 
-            service.create(new Work("butterfly", "cam", "SOfia","geh ddjddj", "billede","22 November 2018" , "Lassi","Tutu"));
+            //service.create(new Work("butterfly", "cam", "SOfia","geh ddjddj", "billede","22 November 2018" , "Lassi","Tutu"));
         };
     }
 }
