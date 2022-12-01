@@ -13,6 +13,8 @@ public class CoverListDTO {
 
     private long id;
     private String image;
+    private String producerName;
+    private String releaseDate;
 }
 
 
