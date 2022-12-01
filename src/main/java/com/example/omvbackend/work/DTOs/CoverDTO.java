@@ -13,7 +13,8 @@ public class CoverDTO {
 
     private long id;
     private String image;
-    private String producerName;
+    private String artistName;
+    private String singleName;
     private String releaseDate;
 }
 

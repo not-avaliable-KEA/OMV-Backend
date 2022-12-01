@@ -1,5 +1,5 @@
 package com.example.omvbackend.user.service;
-
+/*
 import com.example.omvbackend.work.model.Work;
 import com.example.omvbackend.work.service.WorkService;
 import org.junit.jupiter.api.Test;
@@ -137,14 +137,14 @@ public class WorkServiceTest {
         assertTrue(result);
         assertEquals(expectedLengthOfWorks,currentLengthOfWorks);
     }
-
     /******
      *                      *
      * Helper functions     *
      *                      *
      ******/
     //function to compare two works, that are expected to be the same
-    void workCheckEquals(Work expected, Work result){
+    /*void workCheckEquals(Work expected, Work result){
         assertEquals(expected.getId(),result.getId());
     }
 }
+*/

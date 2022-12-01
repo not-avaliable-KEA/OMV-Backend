@@ -6,12 +6,15 @@ import com.example.omvbackend.user.model.User;
 import com.example.omvbackend.work.DTOs.CoverDTO;
 import com.example.omvbackend.work.model.Work;
 import com.example.omvbackend.work.service.WorkService;
+import net.bytebuddy.asm.Advice;
 import org.modelmapper.ModelMapper;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class DtoFactory {
@@ -48,9 +51,15 @@ public class DtoFactory {
     public static CoverDTO fromWork(Work work) {
         CoverDTO coverDTO = new CoverDTO();
 
+        if (work.getReleaseDate() != null) {
+            String dateTime = work.getReleaseDate().format(formatterWork);
+            coverDTO.setReleaseDate(dateTime);
+        }
 
-        String dateTime = work.getReleaseDate().format(formatterWork);
-        coverDTO.setReleaseDate(dateTime);
+        coverDTO.setSingleName(work.getSingleName());
+        coverDTO.setArtistName(work.getArtistName());
+        coverDTO.setImage(work.getImage());
+        coverDTO.setId(work.getId());
 
         return coverDTO;
     }
@@ -63,7 +72,21 @@ public class DtoFactory {
     }
 
     public static Work fromWorkDTO(CoverDTO workDTO) {
-        return modelMapper.map(workDTO, Work.class);
+        Work work = new Work();
+
+        //we parse workDTOs releaseDato to Locatedate
+        if(workDTO.getReleaseDate() != null && !workDTO.getReleaseDate().isEmpty()){
+            System.out.println(workDTO.getReleaseDate());
+            LocalDateTime dateTime = LocalDate.parse(workDTO.getReleaseDate(), formatterWork).atStartOfDay();
+            work.setReleaseDate(dateTime);
+        }
+
+        work.setArtistName(workDTO.getArtistName());
+        work.setSingleName(workDTO.getSingleName());
+        work.setImage(workDTO.getImage());
+        work.setId(workDTO.getId());
+
+        return work;
     }
 
 }
