@@ -37,8 +37,9 @@ public WorkService(WorkRepository repository){
 
         Optional<Work> optionalWork=get(work.getId());
 
-        if (optionalWork.isEmpty()) return null;
-        else{
+        if (optionalWork.isEmpty()) {
+            return null;
+        } else {
             optionalWork.get().update(work);
         }
         return repository.save(optionalWork.get());
