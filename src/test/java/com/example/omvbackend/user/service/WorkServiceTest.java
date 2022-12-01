@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +26,7 @@ public class WorkServiceTest {
         String expectedArtistName = "artiskName";
         String expectedDescription = "description";
         String expectedImage = "image";
-        String expectedReleaseDate = "ReleaseDate";
+        LocalDateTime expectedReleaseDate = LocalDateTime.now();
         String expectedWriter = "writer";
         String expectedMaster = "master";
 
@@ -57,8 +58,8 @@ public class WorkServiceTest {
     @Test
     void getAll(){
         //Arrange
-        workService.create(new Work("test","test","test","test","test","test","test","test"));
-        int expectedsize = 3; //3 cause we created a new one in the delete method
+        workService.create(new Work("test","test","test","test","test",LocalDateTime.now(),"test","test"));
+        int expectedsize = 2; //2 cause we created a new one in the delete method
 
         //Act
         List<Work> result = workService.getAll();
@@ -77,7 +78,7 @@ public class WorkServiceTest {
     @Test
     void get_validId(){
         //Arrange
-        Work expectedWork = workService.create(new Work("test","test","test","test","test","test","test","test"));
+        Work expectedWork = workService.create(new Work("test","test","test","test","test",LocalDateTime.now(),"test","test"));
 
         //Act
         Optional<Work> result = workService.get(expectedWork.getId());
@@ -92,7 +93,7 @@ public class WorkServiceTest {
     @Test
     void update(){
         //Arrange
-        Work created = workService.create(new Work("test","test","test","test","test","test","test","test"));
+        Work created = workService.create(new Work("test","test","test","test","test",LocalDateTime.now(),"test","test"));
         Work updateTo = new Work();
         updateTo.setId(created.getId());
         updateTo.setSingleName("new Test");
@@ -100,7 +101,7 @@ public class WorkServiceTest {
         updateTo.setArtistName("new Test");
         updateTo.setDescription("new Test");
         updateTo.setImage("new Test");
-        updateTo.setReleaseDate("new Test");
+        updateTo.setReleaseDate(LocalDateTime.now());
         updateTo.setWriter("new Test");
         updateTo.setMaster("new Test");
 
@@ -125,7 +126,7 @@ public class WorkServiceTest {
     void delete(){
         //Arrange
         //Create a work to delete
-        Work expectedWork = workService.create(new Work("test","test","test","test","test","test","test","test"));
+        Work expectedWork = workService.create(new Work("test","test","test","test","test",LocalDateTime.now(),"test","test"));
         //get the expected lenght of users, minus 1, since we expect to remove the one we just created
         int expectedLengthOfWorks = workService.getAll().size() - 1;
 
