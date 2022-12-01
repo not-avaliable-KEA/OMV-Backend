@@ -58,7 +58,7 @@ public class WorkServiceTest {
     void getAll(){
         //Arrange
         workService.create(new Work("test","test","test","test","test","test","test","test"));
-        int expectedsize = 2;
+        int expectedsize = 3; //3 cause we created a new one in the delete method
 
         //Act
         List<Work> result = workService.getAll();
@@ -89,13 +89,62 @@ public class WorkServiceTest {
         workCheckEquals(expectedWork,result.get());
     }
 
+    @Test
+    void update(){
+        //Arrange
+        Work created = workService.create(new Work("test","test","test","test","test","test","test","test"));
+        Work updateTo = new Work();
+        updateTo.setId(created.getId());
+        updateTo.setSingleName("new Test");
+        updateTo.setProducerName("new Test");
+        updateTo.setArtistName("new Test");
+        updateTo.setDescription("new Test");
+        updateTo.setImage("new Test");
+        updateTo.setReleaseDate("new Test");
+        updateTo.setWriter("new Test");
+        updateTo.setMaster("new Test");
+
+        //Act
+        Work result = workService.update(updateTo);
+
+        //Assert
+        // checks that updateTo and created is not the same object.
+        assertNotEquals(updateTo,created);
+        //checks the basics
+        assertEquals(updateTo.getId(),result.getId());
+        assertEquals(updateTo.getSingleName(),result.getSingleName());
+        assertEquals(updateTo.getArtistName(),result.getArtistName());
+        assertEquals(updateTo.getDescription(),result.getDescription());
+        assertEquals(updateTo.getImage(),result.getImage());
+        assertEquals(updateTo.getReleaseDate(),result.getReleaseDate());
+        assertEquals(updateTo.getWriter(),result.getWriter());
+        assertEquals(updateTo.getMaster(),result.getMaster());
+    }
+
+    @Test
+    void delete(){
+        //Arrange
+        //Create a work to delete
+        Work expectedWork = workService.create(new Work("test","test","test","test","test","test","test","test"));
+        //get the expected lenght of users, minus 1, since we expect to remove the one we just created
+        int expectedLengthOfWorks = workService.getAll().size() - 1;
+
+        //Act
+        boolean result = workService.delete(expectedWork.getId());
+        int currentLengthOfWorks = workService.getAll().size();
+
+        //Assert
+        assertTrue(result);
+        assertEquals(expectedLengthOfWorks,currentLengthOfWorks);
+    }
+
     /******
-     * Helper functions
-     *
-     */
+     *                      *
+     * Helper functions     *
+     *                      *
+     ******/
     //function to compare two works, that are expected to be the same
     void workCheckEquals(Work expected, Work result){
         assertEquals(expected.getId(),result.getId());
     }
-
 }
