@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +32,7 @@ class BlogPostServiceTest {
         // assert
         assertNotNull(result);
 
-        assertEquals(createdDate, result.getCreatedDate());
+        checkLocalDateTimeEquals(createdDate, result.getCreatedDate());
         assertEquals(text, result.getText());
         assertEquals(picture, result.getPicture());
 
@@ -109,7 +110,7 @@ class BlogPostServiceTest {
         assertEquals(expectedID, result.get().getId());
         assertEquals(text,result.get().getText());
         assertEquals(picture,result.get().getPicture());
-        assertEquals(createdDate,result.get().getCreatedDate());
+        checkLocalDateTimeEquals(createdDate,result.get().getCreatedDate());
     }
 
     @Test
@@ -150,7 +151,7 @@ class BlogPostServiceTest {
         assertEquals(expectedTitle, result.get().getTitle());
         assertEquals(expectedText, result.get().getText());
         assertEquals(expectedPicture, result.get().getPicture());
-        assertEquals(expectedCreateDate, result.get().getCreatedDate());
+        checkLocalDateTimeEquals(expectedCreateDate, result.get().getCreatedDate());
     }
 
     @Test
@@ -175,7 +176,7 @@ class BlogPostServiceTest {
         assertEquals(expectedTitle, result.get().getTitle());
         assertEquals(expectedText, result.get().getText());
         assertEquals(expectedPicture, result.get().getPicture());
-        assertEquals(expectedCreateDate, result.get().getCreatedDate());
+        checkLocalDateTimeEquals(expectedCreateDate, result.get().getCreatedDate());
     }
 
     @Test
@@ -200,7 +201,7 @@ class BlogPostServiceTest {
         assertEquals(expectedTitle, result.get().getTitle());
         assertEquals(expectedText, result.get().getText());
         assertEquals(expectedPicture, result.get().getPicture());
-        assertEquals(expectedCreateDate, result.get().getCreatedDate());
+        checkLocalDateTimeEquals(expectedCreateDate, result.get().getCreatedDate());
     }
 
     @Test
@@ -225,7 +226,7 @@ class BlogPostServiceTest {
         assertEquals(expectedTitle, result.get().getTitle());
         assertEquals(expectedText, result.get().getText());
         assertEquals(expectedPicture, result.get().getPicture());
-        assertEquals(expectedCreateDate, result.get().getCreatedDate());
+        checkLocalDateTimeEquals(expectedCreateDate, result.get().getCreatedDate());
     }
 
     @Test
@@ -250,7 +251,7 @@ class BlogPostServiceTest {
         assertEquals(expectedTitle, result.get().getTitle());
         assertEquals(expectedText, result.get().getText());
         assertEquals(expectedPicture, result.get().getPicture());
-        assertEquals(expectedCreateDate, result.get().getCreatedDate());
+        checkLocalDateTimeEquals(expectedCreateDate, result.get().getCreatedDate());
     }
 
     @Test
@@ -276,7 +277,7 @@ class BlogPostServiceTest {
         assertEquals(expectedTitle, result.get().getTitle());
         assertEquals(expectedText, result.get().getText());
         assertEquals(expectedPicture, result.get().getPicture());
-        assertEquals(expectedCreateDate, result.get().getCreatedDate());
+        checkLocalDateTimeEquals(expectedCreateDate, result.get().getCreatedDate());
     }
 
     @Test
@@ -302,7 +303,7 @@ class BlogPostServiceTest {
         assertEquals(expectedTitle, result.get().getTitle());
         assertEquals(expectedText, result.get().getText());
         assertEquals(expectedPicture, result.get().getPicture());
-        assertEquals(expectedCreateDate, result.get().getCreatedDate());
+        checkLocalDateTimeEquals(expectedCreateDate, result.get().getCreatedDate());
     }
 
     @Test
@@ -328,7 +329,7 @@ class BlogPostServiceTest {
         assertEquals(expectedTitle, result.get().getTitle());
         assertEquals(expectedText, result.get().getText());
         assertEquals(expectedPicture, result.get().getPicture());
-        assertEquals(expectedCreateDate, result.get().getCreatedDate());
+        checkLocalDateTimeEquals(expectedCreateDate, result.get().getCreatedDate());
     }
 
 
@@ -357,7 +358,7 @@ class BlogPostServiceTest {
         assertEquals(expectedTitle, result.get().getTitle());
         assertEquals(expectedText, result.get().getText());
         assertEquals(expectedPicture, result.get().getPicture());
-        assertEquals(expectedCreateDate, result.get().getCreatedDate());
+        checkLocalDateTimeEquals(expectedCreateDate, result.get().getCreatedDate());
     }
 
     @Test
@@ -377,5 +378,9 @@ class BlogPostServiceTest {
 
         // assert
         assertTrue(result.isEmpty());
+    }
+
+    void checkLocalDateTimeEquals(LocalDateTime expected, LocalDateTime actual) {
+        assertEquals(expected.toEpochSecond(ZoneOffset.UTC), actual.toEpochSecond(ZoneOffset.UTC));
     }
 }
