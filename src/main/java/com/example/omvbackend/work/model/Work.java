@@ -38,14 +38,14 @@ public class Work
     //
 
     public Work update(Work work){
-        this.singleName = singleName;
-        this.producerName = producerName;
-        this.artistName = artistName;
-        this.description = description;
-        this.image = image;
-        this.releaseDate = releaseDate;
-        this.writer = writer;
-        this.master = master;
+        this.singleName = work.getSingleName();
+        this.producerName = work.getProducerName();
+        this.artistName = work.getArtistName();
+        this.description = work.getDescription();
+        this.image = work.getImage();
+        this.releaseDate = work.releaseDate;
+        this.writer = work.getWriter();
+        this.master = work.getMaster();
         return this;
     }
 }
