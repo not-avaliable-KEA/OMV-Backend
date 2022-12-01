@@ -25,19 +25,23 @@ public class UserController {
     }
     //create
     @PostMapping
-    public ResponseEntity<User> create(@Valid @RequestBody User user){
+    public ResponseEntity<User> create(HttpSession session, @Valid @RequestBody User user){
+        if (session.getAttribute("user") == null) return ResponseEntity.badRequest().body(null);
+
         return ResponseEntity.ok().body(service.create(user));
     }
 
     //get all
     @GetMapping
-    public ResponseEntity<List<UserDTO>> getAll(){
+    public ResponseEntity<List<UserDTO>> getAll(HttpSession session){
+        if (session.getAttribute("user") == null) return ResponseEntity.badRequest().body(null);
         return ResponseEntity.ok().body(DtoFactory.fromUsers(service.getAll()));
     }
 
     // get 1
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> get(@PathVariable long id) {
+    public ResponseEntity<UserDTO> get(HttpSession session, @PathVariable long id) {
+        if (session.getAttribute("user") == null) return ResponseEntity.badRequest().body(null);
         Optional<User> user = service.get(id);
 
         if (user.isEmpty()) return ResponseEntity.badRequest().body(null);
@@ -47,7 +51,9 @@ public class UserController {
 
     // update
     @PatchMapping("/{id}")
-    public ResponseEntity update(@PathVariable long id, @Valid @RequestBody User user) {
+    public ResponseEntity update(HttpSession session, @PathVariable long id, @Valid @RequestBody User user) {
+        if (session.getAttribute("user") == null) return ResponseEntity.badRequest().body(null);
+
         user.setId(id);
 
         User updatedUser = service.update(user);
@@ -60,7 +66,9 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable long id) {
+    public ResponseEntity<Boolean> delete(HttpSession session, @PathVariable long id) {
+        if (session.getAttribute("user") == null) return ResponseEntity.badRequest().body(null);
+
         return ResponseEntity.ok().body(service.delete(id));
     }
 
