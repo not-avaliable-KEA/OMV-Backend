@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = {"http://127.0.0.1", "https://white-sand-06fa66003.2.azurestaticapps.net/"}, allowCredentials = "true")
+@CrossOrigin(origins = {"http://127.0.0.1:5500", "https://white-sand-06fa66003.2.azurestaticapps.net/"}, allowCredentials = "true")
 @RequestMapping("api/v1/user")
 public class UserController {
 
@@ -25,7 +25,9 @@ public class UserController {
     }
     //create
     @PostMapping
-    public ResponseEntity<User> create(@Valid @RequestBody User user){
+    public ResponseEntity<User> create(HttpSession session, @Valid @RequestBody User user){
+        if (session.getAttribute("user") == null) return ResponseEntity.badRequest().body(null);
+
         return ResponseEntity.ok().body(service.create(user));
     }
 
@@ -47,7 +49,9 @@ public class UserController {
 
     // update
     @PatchMapping("/{id}")
-    public ResponseEntity update(@PathVariable long id, @Valid @RequestBody User user) {
+    public ResponseEntity update(HttpSession session, @PathVariable long id, @Valid @RequestBody User user) {
+        if (session.getAttribute("user") == null) return ResponseEntity.badRequest().body(null);
+
         user.setId(id);
 
         User updatedUser = service.update(user);
@@ -60,7 +64,9 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable long id) {
+    public ResponseEntity<Boolean> delete(HttpSession session, @PathVariable long id) {
+        if (session.getAttribute("user") == null) return ResponseEntity.badRequest().body(null);
+
         return ResponseEntity.ok().body(service.delete(id));
     }
 
