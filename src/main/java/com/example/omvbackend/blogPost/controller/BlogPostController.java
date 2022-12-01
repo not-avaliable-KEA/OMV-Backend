@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +22,9 @@ public class BlogPostController {
     private BlogPostService service;
 
     @PostMapping
-    public ResponseEntity<BlogPost> create(@Valid @RequestBody BlogPostDTO blogPost){
+    public ResponseEntity<BlogPost> create(HttpSession session, @Valid @RequestBody BlogPostDTO blogPost){
+        if (session.getAttribute("user") == null) return ResponseEntity.badRequest().body(null);
+
         return ResponseEntity.ok().body(service.create(DtoFactory.fromBlogPostDTO(blogPost)));
     }
 
@@ -41,7 +44,11 @@ public class BlogPostController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<BlogPost> update(@Valid @RequestBody BlogPostDTO blogPostDTO, @PathVariable long id) {
+    public ResponseEntity<BlogPost> update(HttpSession session,
+                                           @Valid @RequestBody BlogPostDTO blogPostDTO,
+                                           @PathVariable long id) {
+        if (session.getAttribute("user") == null) return ResponseEntity.badRequest().body(null);
+
         BlogPost blogPost = DtoFactory.fromBlogPostDTO(blogPostDTO);
 
         blogPost.setId(id);
@@ -56,7 +63,9 @@ public class BlogPostController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable long id) {
+    public ResponseEntity<Boolean> delete(HttpSession session, @PathVariable long id) {
+        if (session.getAttribute("user") == null) return ResponseEntity.badRequest().body(null);
+
         return ResponseEntity.ok().body(service.delete(id));
     }
 }
