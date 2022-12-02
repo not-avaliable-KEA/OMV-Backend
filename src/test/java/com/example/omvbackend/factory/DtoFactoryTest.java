@@ -122,7 +122,7 @@ class DtoFactoryTest {
         String expectedArtistName = "artistName";
         String expectedDescription = "description";
         String expectedImage = "image";
-        LocalDate expectedReleaseDate = LocalDate.now();
+        LocalDate expectedReleaseDate = LocalDate.of(2022, 10, 01);
         String expectedWriter = "writer";
         String expectedMaster = "master";
         Work work;
