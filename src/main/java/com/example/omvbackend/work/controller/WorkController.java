@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +26,15 @@ public WorkController(WorkService service){
     this.service = service;
 
 }
-    @GetMapping()
+
+    @PostMapping
+    public ResponseEntity<WorkDTO> create(HttpSession session, @Valid @RequestBody WorkDTO work){
+        if (session.getAttribute("user") == null) return ResponseEntity.badRequest().body(null);
+        Work item = service.create(DtoFactory.fromWorkDTO(work));
+        return ResponseEntity.ok().body(DtoFactory.fromWork(item));
+    }
+
+    @GetMapping
     public ResponseEntity<List<WorkDTO>> findAll(){
         return ResponseEntity.ok().body(DtoFactory.fromWorks(service.getAll()));
     }
@@ -38,23 +47,19 @@ public WorkController(WorkService service){
         return ResponseEntity.ok().body(DtoFactory.fromWork(item.get()));
     }
 
-    @PostMapping()
-    public ResponseEntity<WorkDTO> create(@RequestBody WorkDTO work){
 
-        Work item = service.create(DtoFactory.fromWorkDTO(work));
-        return ResponseEntity.ok().body(DtoFactory.fromWork(item));
-    }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<WorkDTO> update(@Valid @RequestBody WorkDTO workDTO, @PathVariable("id") Long id){
-        System.out.println("hit");
+    public ResponseEntity<WorkDTO> update(HttpSession session, @Valid @RequestBody WorkDTO workDTO, @PathVariable("id") Long id){
+        if (session.getAttribute("user") == null) return ResponseEntity.badRequest().body(null);
         workDTO.setId(id);
         Work item = service.update(DtoFactory.fromWorkDTO(workDTO));
         return ResponseEntity.ok().body(DtoFactory.fromWork(item));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<Boolean> delete(HttpSession session, @PathVariable("id") Long id) {
+        if (session.getAttribute("user") == null) return ResponseEntity.badRequest().body(null);
         service.get(id).orElseThrow( () -> new ResourceNotFoundException("Work %d not found.".formatted(id)));
 
         boolean delete = service.delete(id);
