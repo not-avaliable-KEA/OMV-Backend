@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-@CrossOrigin
+@CrossOrigin(origins = {"http://127.0.0.1:5500", "https://white-sand-06fa66003.2.azurestaticapps.net/"}, allowCredentials = "true")
 @RestController
 @RequestMapping("/api/v1/work")
 
@@ -47,6 +47,7 @@ public WorkController(WorkService service){
 
     @PatchMapping("/{id}")
     public ResponseEntity<WorkDTO> update(@Valid @RequestBody WorkDTO workDTO, @PathVariable("id") Long id){
+        System.out.println("hit");
         workDTO.setId(id);
         Work item = service.update(DtoFactory.fromWorkDTO(workDTO));
         return ResponseEntity.ok().body(DtoFactory.fromWork(item));
