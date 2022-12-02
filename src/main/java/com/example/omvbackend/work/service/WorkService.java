@@ -16,10 +16,10 @@ public class WorkService
 {
 WorkRepository repository;
 
-public WorkService(WorkRepository repository){
-    this.repository = repository;
-    DtoFactory.setWorkService(this);
-}
+    public WorkService(WorkRepository repository){
+        this.repository = repository;
+        DtoFactory.setWorkService(this);
+    }
 
     public Work create(Work work){
         return repository.save(work);
@@ -45,8 +45,6 @@ public WorkService(WorkRepository repository){
         return repository.save(optionalWork.get());
     }
 
-
-
     public boolean delete(long id){
 
         Optional<Work> optionalWork = get(id);
@@ -58,6 +56,5 @@ public WorkService(WorkRepository repository){
             return false;
         }
     }
-
 
 }

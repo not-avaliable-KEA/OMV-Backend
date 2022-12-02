@@ -36,8 +36,6 @@ public class Work {
         this.master = master;
     }
 
-    //
-
     public Work update(Work work) {
         this.singleName = work.getSingleName();
         this.producerName = work.getProducerName();

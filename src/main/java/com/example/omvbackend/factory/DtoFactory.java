@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 public class DtoFactory {
 
-    private static ModelMapper modelMapper = OmvBackendApplication.modelMapper();
+    private static final ModelMapper modelMapper = OmvBackendApplication.modelMapper();
     private static final DateTimeFormatter formatterWork = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 

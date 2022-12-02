@@ -21,17 +21,14 @@ import java.util.Optional;
 public class WorkController {
     private final WorkService service;
 
-
 public WorkController(WorkService service){
     this.service = service;
 
 }
-
     @GetMapping()
     public ResponseEntity<List<WorkDTO>> findAll(){
         return ResponseEntity.ok().body(DtoFactory.fromWorks(service.getAll()));
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<WorkDTO> find(@PathVariable("id") Long id) throws ResourceNotFoundException {
@@ -47,7 +44,6 @@ public WorkController(WorkService service){
         Work item = service.create(DtoFactory.fromWorkDTO(work));
         return ResponseEntity.ok().body(DtoFactory.fromWork(item));
     }
-
 
     @PatchMapping("/{id}")
     public ResponseEntity<WorkDTO> update(@Valid @RequestBody WorkDTO workDTO, @PathVariable("id") Long id){

@@ -8,7 +8,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Optional;
 
 public interface WorkRepository extends JpaRepository<Work, Long> {
-
     Optional<Work> findWorksById(int id);
 }
 

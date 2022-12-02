@@ -7,7 +7,6 @@ import com.example.omvbackend.work.model.Work;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,8 +61,7 @@ class DtoFactoryTest {
             user.setId((long) i);
             list.add(user);
         }
-
-
+        
         // act
         List<UserDTO> result = DtoFactory.fromUsers(list);
 
