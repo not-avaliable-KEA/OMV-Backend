@@ -22,23 +22,15 @@ public class OmvBackendApplication {
         return new ModelMapper();
     }
 
+
+    /**
+     * CommandLineRunner to add the adminUser
+     */
     @Bean
-    public CommandLineRunner importData(UserService service)
-    {
+    public CommandLineRunner importData(UserService service) {
         return (args) -> {
-
-            service.create(new User("username", "password"));
-
-
+        service.create(new User("adminUser", "adminUserPasseord"));
         };
     }
-
-    @Bean
-    public CommandLineRunner importDataWork(WorkService service)
-    {
-        return (args) -> {
-
-            //service.create(new Work("butterfly", "cam", "SOfia","geh ddjddj", "billede","22 November 2018" , "Lassi","Tutu"));
-        };
-    }
+    
 }
