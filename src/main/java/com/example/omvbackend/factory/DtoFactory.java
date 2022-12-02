@@ -74,7 +74,7 @@ public class DtoFactory {
     public static Work fromWorkDTO(WorkDTO workDTO) {
         Work work = new Work();
 
-        //we parse workDTOs releaseDato to Locatedate
+        //we parse workDTOs releaseDato to Localedate
         if(workDTO.getReleaseDate() != null && !workDTO.getReleaseDate().isEmpty()){
             System.out.println(workDTO.getReleaseDate());
             LocalDate dateTime = LocalDate.parse(workDTO.getReleaseDate(), formatterWork);
