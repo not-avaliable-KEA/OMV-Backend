@@ -50,7 +50,7 @@ class UserServiceTest {
     void getAll() {
         //arrange
         userService.create(new User("tutu", "tamtam"));
-        int expectedSize = 3;
+        int expectedSize = 4;
 
         //act
         List<User> result = userService.getAll();
