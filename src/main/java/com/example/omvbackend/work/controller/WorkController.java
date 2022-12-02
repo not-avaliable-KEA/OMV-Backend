@@ -1,7 +1,7 @@
 package com.example.omvbackend.work.controller;
 
 import com.example.omvbackend.factory.DtoFactory;
-import com.example.omvbackend.work.DTOs.CoverDTO;
+import com.example.omvbackend.work.DTOs.WorkDTO;
 import com.example.omvbackend.work.model.Work;
 import com.example.omvbackend.work.service.WorkService;
 import org.springframework.http.HttpStatus;
@@ -28,13 +28,13 @@ public WorkController(WorkService service){
 }
 
     @GetMapping()
-    public ResponseEntity<List<CoverDTO>> findAll(){
+    public ResponseEntity<List<WorkDTO>> findAll(){
         return ResponseEntity.ok().body(DtoFactory.fromWorks(service.getAll()));
     }
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<CoverDTO> find(@PathVariable("id") Long id) throws ResourceNotFoundException {
+    public ResponseEntity<WorkDTO> find(@PathVariable("id") Long id) throws ResourceNotFoundException {
         Optional<Work> item = service.get(id);
 
         if (item.isEmpty()) return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
@@ -42,7 +42,7 @@ public WorkController(WorkService service){
     }
 
     @PostMapping()
-    public ResponseEntity<CoverDTO> create(@RequestBody CoverDTO work){
+    public ResponseEntity<WorkDTO> create(@RequestBody WorkDTO work){
 
         Work item = service.create(DtoFactory.fromWorkDTO(work));
         return ResponseEntity.ok().body(DtoFactory.fromWork(item));
@@ -50,7 +50,7 @@ public WorkController(WorkService service){
 
 
     @PatchMapping("/{id}")
-    public ResponseEntity<CoverDTO> update(@Valid @RequestBody CoverDTO workDTO, @PathVariable("id") Long id){
+    public ResponseEntity<WorkDTO> update(@Valid @RequestBody WorkDTO workDTO, @PathVariable("id") Long id){
         workDTO.setId(id);
         Work item = service.update(DtoFactory.fromWorkDTO(workDTO));
         return ResponseEntity.ok().body(DtoFactory.fromWork(item));
