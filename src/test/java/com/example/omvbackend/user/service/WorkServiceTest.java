@@ -1,11 +1,12 @@
 package com.example.omvbackend.user.service;
-/*
+
 import com.example.omvbackend.work.model.Work;
 import com.example.omvbackend.work.service.WorkService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -138,14 +139,16 @@ public class WorkServiceTest {
         assertTrue(result);
         assertEquals(expectedLengthOfWorks,currentLengthOfWorks);
     }
+
     /******
      *                      *
      * Helper functions     *
      *                      *
      ******/
+
     //function to compare two works, that are expected to be the same
-    /*void workCheckEquals(Work expected, Work result){
+    void workCheckEquals(Work expected, Work result){
         assertEquals(expected.getId(),result.getId());
     }
 }
-*/
+
