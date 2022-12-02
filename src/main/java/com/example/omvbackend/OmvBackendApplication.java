@@ -2,6 +2,8 @@ package com.example.omvbackend;
 
 import com.example.omvbackend.user.model.User;
 import com.example.omvbackend.user.service.UserService;
+import com.example.omvbackend.work.model.Work;
+import com.example.omvbackend.work.service.WorkService;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -20,6 +22,7 @@ public class OmvBackendApplication {
         return new ModelMapper();
     }
 
+
     /**
      * CommandLineRunner to add the adminUser
      */
@@ -29,5 +32,5 @@ public class OmvBackendApplication {
         service.create(new User("adminUser", "adminUserPasseord"));
         };
     }
-
+    
 }
