@@ -7,6 +7,7 @@ import com.example.omvbackend.work.model.Work;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,7 +109,7 @@ class DtoFactoryTest {
         assertEquals(expectedImage, result.getImage());
         assertEquals(expectedArtistName, result.getArtistName());
         assertEquals(expectedSingleName, result.getSingleName());
-       // assertEquals(expectedReleaseDate, result.getReleaseDate());
+        assertNotEquals(expectedReleaseDate, result.getReleaseDate());
     }
 
     @Test
@@ -126,7 +127,7 @@ class DtoFactoryTest {
         String expectedMaster = "master";
         Work work;
         for (int i = 0; i < 10; i++) {
-            work = new Work(expectedSingleName + "i", expectedProducerName, expectedArtistName + "i", expectedDescription, expectedImage + "i", expectedReleaseDate, expectedWriter, expectedMaster);
+            work = new Work(expectedSingleName + "i", expectedProducerName, expectedArtistName + "i", expectedDescription, expectedImage + "i", expectedReleaseDate , expectedWriter, expectedMaster);
             work.setId(i);
             list.add(work);
         }
@@ -144,7 +145,7 @@ class DtoFactoryTest {
                 assertEquals(expectedImage + "i", coverDTO.getImage());
                 assertEquals(expectedArtistName + "i", coverDTO.getArtistName());
                 assertEquals(expectedSingleName + "i", coverDTO.getSingleName());
-                //assertEquals(expectedReleaseDate + "i", coverDTO.getReleaseDate());
+                assertEquals("2022-10-01", coverDTO.getReleaseDate());
                 assertEquals(i, coverDTO.getId());
             }
     }
@@ -155,12 +156,12 @@ class DtoFactoryTest {
         String expectedSingleName = "singleName";
         String expectedArtistName = "artistName";
         String expectedImage = "image";
-        //LocalDateTime expectedReleaseDate = LocalDateTime.now();
+        LocalDate expectedReleaseDate = LocalDate.now();
         WorkDTO workDTO = new WorkDTO();
         workDTO.setSingleName(expectedSingleName);
         workDTO.setArtistName(expectedArtistName);
         workDTO.setImage(expectedImage);
-        //coverDTO.setReleaseDate(expectedReleaseDate);
+        workDTO.setReleaseDate(String.valueOf(expectedReleaseDate));
         workDTO.setId(1L);
 
       //Act
@@ -173,6 +174,6 @@ class DtoFactoryTest {
         assertEquals(expectedArtistName, result.getArtistName());
         assertEquals(expectedImage, result.getImage());
         assertEquals(workDTO.getId(), result.getId());
-        //assertEquals(expectedReleaseDate, result.getReleaseDate());
+        assertEquals(expectedReleaseDate, result.getReleaseDate());
     }
 }
