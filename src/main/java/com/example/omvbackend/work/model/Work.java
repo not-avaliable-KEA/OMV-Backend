@@ -20,6 +20,8 @@ public class Work {
     private String producerName;
     private String artistName;
     private String description;
+
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String image;
     private LocalDate releaseDate;
     private String writer;
