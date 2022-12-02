@@ -2,6 +2,7 @@ package com.example.omvbackend.work.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -20,11 +21,11 @@ public class Work {
     private String artistName;
     private String description;
     private String image;
-    private LocalDateTime releaseDate;
+    private LocalDate releaseDate;
     private String writer;
     private String master;
 
-    public Work(String singleName, String producerName, String artistName, String description, String image, LocalDateTime releaseDate, String writer, String master) {
+    public Work(String singleName, String producerName, String artistName, String description, String image, LocalDate releaseDate, String writer, String master) {
         this.singleName = singleName;
         this.producerName = producerName;
         this.artistName = artistName;
