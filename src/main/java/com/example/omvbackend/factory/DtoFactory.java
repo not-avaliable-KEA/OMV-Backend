@@ -3,10 +3,9 @@ package com.example.omvbackend.factory;
 import com.example.omvbackend.OmvBackendApplication;
 import com.example.omvbackend.user.DTOs.UserDTO;
 import com.example.omvbackend.user.model.User;
-import com.example.omvbackend.work.DTOs.CoverDTO;
+import com.example.omvbackend.work.DTOs.WorkDTO;
 import com.example.omvbackend.work.model.Work;
 import com.example.omvbackend.work.service.WorkService;
-import net.bytebuddy.asm.Advice;
 import org.modelmapper.ModelMapper;
 
 import java.time.LocalDate;
@@ -14,7 +13,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class DtoFactory {
@@ -48,37 +46,40 @@ public class DtoFactory {
         DtoFactory.workService = workService;
     }
 
-    public static CoverDTO fromWork(Work work) {
-        CoverDTO coverDTO = new CoverDTO();
+    //takes WORk parameter, returns workDTO and parse
+    public static WorkDTO fromWork(Work work) {
+        WorkDTO workDTO = new WorkDTO();
 
         if (work.getReleaseDate() != null) {
             String dateTime = work.getReleaseDate().format(formatterWork);
-            coverDTO.setReleaseDate(dateTime);
+            workDTO.setReleaseDate(dateTime);
         }
 
-        coverDTO.setSingleName(work.getSingleName());
-        coverDTO.setArtistName(work.getArtistName());
-        coverDTO.setImage(work.getImage());
-        coverDTO.setId(work.getId());
+        workDTO.setSingleName(work.getSingleName());
+        workDTO.setArtistName(work.getArtistName());
+        workDTO.setImage(work.getImage());
+        workDTO.setId(work.getId());
 
-        return coverDTO;
+        return workDTO;
     }
 
-    public static List<CoverDTO> fromWorks(List<Work> works){
+    public static List<WorkDTO> fromWorks(List<Work> works){
         return works.stream()
-                .sorted(Comparator.comparing(Work::getReleaseDate))
-                .map(work -> modelMapper.map(work, CoverDTO.class))
+                .sorted(Comparator.comparing(Work::getReleaseDate).reversed())
+                .map(DtoFactory::fromWork)
                 .collect(Collectors.toList());
     }
 
-    public static Work fromWorkDTO(CoverDTO workDTO) {
+    public static Work fromWorkDTO(WorkDTO workDTO) {
         Work work = new Work();
 
         //we parse workDTOs releaseDato to Locatedate
         if(workDTO.getReleaseDate() != null && !workDTO.getReleaseDate().isEmpty()){
             System.out.println(workDTO.getReleaseDate());
-            LocalDateTime dateTime = LocalDate.parse(workDTO.getReleaseDate(), formatterWork).atStartOfDay();
+            LocalDate dateTime = LocalDate.parse(workDTO.getReleaseDate(), formatterWork);
             work.setReleaseDate(dateTime);
+        } else {
+            work.setReleaseDate(LocalDate.now());
         }
 
         work.setArtistName(workDTO.getArtistName());
