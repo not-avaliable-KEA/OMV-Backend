@@ -39,14 +39,27 @@ public class Work {
     }
 
     public Work update(Work work) {
-        this.singleName = work.getSingleName();
-        this.producerName = work.getProducerName();
-        this.artistName = work.getArtistName();
-        this.description = work.getDescription();
-        this.image = work.getImage();
-        this.releaseDate = work.releaseDate;
-        this.writer = work.getWriter();
-        this.master = work.getMaster();
+        if (work.singleName != null && !work.singleName.trim().isEmpty())
+            this.singleName = work.getSingleName();
+
+        if (work.producerName != null && !work.producerName.trim().isEmpty())
+            this.producerName = work.getProducerName();
+
+        if (work.artistName != null && !work.artistName.trim().isEmpty())
+            this.artistName = work.getArtistName();
+
+        if (work.description != null && !work.description.trim().isEmpty())
+            this.description = work.getDescription();
+        if (work.image!= null && !work.image.trim().isEmpty())
+            this.image = work.getImage();
+
+        if (work.releaseDate != null)
+            this.releaseDate = work.releaseDate;
+
+        if (work.writer != null && !work.writer.trim().isEmpty())
+            this.writer = work.getWriter();
+
+        if (work.master != null && !work.master.trim().isEmpty())this.master = work.getMaster();
         return this;
     }
 
