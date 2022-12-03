@@ -40,7 +40,7 @@ public WorkController(WorkService service){
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<WorkDTO> find(@PathVariable("id") Long id) throws ResourceNotFoundException {
+    public ResponseEntity<WorkDTO> find(@PathVariable("id") Long id) {
         Optional<Work> item = service.get(id);
 
         if (item.isEmpty()) return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
