@@ -22,10 +22,12 @@ public class BlogPostController {
     private BlogPostService service;
 
     @PostMapping
-    public ResponseEntity<BlogPost> create(HttpSession session, @Valid @RequestBody BlogPostDTO blogPost){
+    public ResponseEntity<BlogPostDTO> create(HttpSession session, @Valid @RequestBody BlogPostDTO blogPost){
         if (session.getAttribute("user") == null) return ResponseEntity.badRequest().body(null);
 
-        return ResponseEntity.ok().body(service.create(DtoFactory.fromBlogPostDTO(blogPost)));
+        return ResponseEntity.ok().body(
+                    DtoFactory.fromBlogPost(
+                        service.create(DtoFactory.fromBlogPostDTO(blogPost))));
     }
 
     @GetMapping
