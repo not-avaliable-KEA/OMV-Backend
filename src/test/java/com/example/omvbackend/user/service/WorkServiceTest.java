@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +35,7 @@ public class WorkServiceTest {
 
         //Assert
         //checking if singlename is set correctly
-        assertEquals(result.getSingleName(), expectedSingleName);
+        assertEquals(result.getRelease(), expectedSingleName);
         //checking if producername is set correctly
         assertEquals(result.getProducerName(), expectedProducerName);
         //checking if artistname is set correctly
@@ -97,7 +96,7 @@ public class WorkServiceTest {
         Work created = workService.create(new Work("test","test","test","test","test",LocalDate.now(),"test","test"));
         Work updateTo = new Work();
         updateTo.setId(created.getId());
-        updateTo.setSingleName("new Test");
+        updateTo.setRelease("new Test");
         updateTo.setProducerName("new Test");
         updateTo.setArtistName("new Test");
         updateTo.setDescription("new Test");
@@ -114,7 +113,7 @@ public class WorkServiceTest {
         assertNotEquals(updateTo,created);
         //checks the basics
         assertEquals(updateTo.getId(),result.getId());
-        assertEquals(updateTo.getSingleName(),result.getSingleName());
+        assertEquals(updateTo.getRelease(),result.getRelease());
         assertEquals(updateTo.getArtistName(),result.getArtistName());
         assertEquals(updateTo.getDescription(),result.getDescription());
         assertEquals(updateTo.getImage(),result.getImage());

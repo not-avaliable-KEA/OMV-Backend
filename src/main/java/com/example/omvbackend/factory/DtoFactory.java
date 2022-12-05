@@ -3,6 +3,8 @@ package com.example.omvbackend.factory;
 import com.example.omvbackend.OmvBackendApplication;
 import com.example.omvbackend.blogPost.DTOs.BlogPostDTO;
 import com.example.omvbackend.blogPost.model.BlogPost;
+import com.example.omvbackend.livevideo.DTOs.LiveVideoDTO;
+import com.example.omvbackend.livevideo.model.LiveVideo;
 import com.example.omvbackend.user.DTOs.UserDTO;
 import com.example.omvbackend.user.model.User;
 import com.example.omvbackend.work.DTOs.WorkDTO;
@@ -13,7 +15,6 @@ import org.modelmapper.ModelMapper;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,12 +22,14 @@ import java.util.stream.Collectors;
 public class DtoFactory {
 
     private static final ModelMapper modelMapper = OmvBackendApplication.modelMapper();
-    private static final DateTimeFormatter formatterWork = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    //work
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 
     //user
 
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    private static final DateTimeFormatter formatterBlog = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 
     /********
@@ -59,11 +62,11 @@ public class DtoFactory {
         WorkDTO workDTO = new WorkDTO();
 
         if (work.getReleaseDate() != null) {
-            String dateTime = work.getReleaseDate().format(formatterWork);
+            String dateTime = work.getReleaseDate().format(formatter);
             workDTO.setReleaseDate(dateTime);
         }
 
-        workDTO.setSingleName(work.getSingleName());
+        workDTO.setSingleName(work.getRelease());
         workDTO.setArtistName(work.getArtistName());
         workDTO.setImage(work.getImage());
         workDTO.setId(work.getId());
@@ -84,14 +87,14 @@ public class DtoFactory {
         //we parse workDTOs releaseDato to Localedate
         if(workDTO.getReleaseDate() != null && !workDTO.getReleaseDate().isEmpty()){
             System.out.println(workDTO.getReleaseDate());
-            LocalDate dateTime = LocalDate.parse(workDTO.getReleaseDate(), formatterWork);
+            LocalDate dateTime = LocalDate.parse(workDTO.getReleaseDate(), formatter);
             work.setReleaseDate(dateTime);
         } else {
             work.setReleaseDate(LocalDate.now());
         }
 
         work.setArtistName(workDTO.getArtistName());
-        work.setSingleName(workDTO.getSingleName());
+        work.setRelease(workDTO.getSingleName());
         work.setImage(workDTO.getImage());
         work.setId(workDTO.getId());
 
@@ -108,7 +111,7 @@ public class DtoFactory {
 
         LocalDateTime timeUnformated = LocalDateTime.parse(dto.getCreatedDate());
 
-        dto.setCreatedDate(timeUnformated.format(formatter));
+        dto.setCreatedDate(timeUnformated.format(formatterBlog));
 
         return dto;
     }
@@ -119,7 +122,7 @@ public class DtoFactory {
 
         // parse and set createDate
         if (blogPostDTO.getCreatedDate() != null && !blogPostDTO.getCreatedDate().trim().isEmpty()) {
-            LocalDateTime dateTime = LocalDateTime.parse(blogPostDTO.getCreatedDate(), formatter);
+            LocalDateTime dateTime = LocalDateTime.parse(blogPostDTO.getCreatedDate(), formatterBlog);
             blogPost.setCreatedDate(dateTime);
         }
 
@@ -138,6 +141,38 @@ public class DtoFactory {
                 .map(DtoFactory::fromBlogPost)
                 .collect(Collectors.toList());
     }
+
+    /***********
+     * liveVideo
+     ***********/
+
+    public static LiveVideoDTO fromLivevideo(LiveVideo liveVideo) {
+        LiveVideoDTO dto = modelMapper.map(liveVideo, LiveVideoDTO.class);
+        //vi parser og sætter setter date i DTO.
+        LocalDate timeUnformated = LocalDate.parse(formatter.format(liveVideo.getDate()));
+        dto.setDate(timeUnformated);
+        return dto;
+    }
+
+    public static LiveVideo fromliveVideo(LiveVideoDTO liveVideoDTO) {
+        LiveVideo liveVideo = new LiveVideo();
+
+        //we parse workDTOs releaseDato to Localedate
+        if(liveVideoDTO.getDate() != null){
+            LocalDate dateTime = LocalDate.parse(formatter.format(liveVideoDTO.getDate()), formatter);
+            liveVideo.setDate(dateTime);
+        } else {
+            liveVideo.setDate(LocalDate.now());
+        }
+
+        liveVideo.setUrl(liveVideoDTO.getUrl());
+        liveVideo.setTitle(liveVideoDTO.getTitel());
+        liveVideo.setIntro(liveVideoDTO.getIntro());
+
+        return liveVideo;
+    }
+
+
 
 }
 
