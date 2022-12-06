@@ -14,5 +14,5 @@ public class LiveVideoDTO {
     private String url;
     private String title;
     private String intro;
-    private LocalDate date;
+    private String date;
 }

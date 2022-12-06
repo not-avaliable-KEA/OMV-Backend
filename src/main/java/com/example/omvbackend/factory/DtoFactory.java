@@ -149,7 +149,7 @@ public class DtoFactory {
     public static LiveVideoDTO fromLiveVideo(LiveVideo liveVideo) {
         LiveVideoDTO dto = modelMapper.map(liveVideo, LiveVideoDTO.class);
         //vi parser og sætter setter date i DTO.
-        LocalDate timeUnformated = LocalDate.parse(formatter.format(liveVideo.getDate()));
+        String timeUnformated = formatter.format(liveVideo.getDate());
         dto.setDate(timeUnformated);
         return dto;
     }
@@ -159,7 +159,7 @@ public class DtoFactory {
 
         //we parse workDTOs releaseDato to Localedate
         if(liveVideoDTO.getDate() != null){
-            LocalDate dateTime = LocalDate.parse(formatter.format(liveVideoDTO.getDate()), formatter);
+            LocalDate dateTime = LocalDate.parse(liveVideoDTO.getDate(), formatter);
             liveVideo.setDate(dateTime);
         } else {
             liveVideo.setDate(LocalDate.now());
