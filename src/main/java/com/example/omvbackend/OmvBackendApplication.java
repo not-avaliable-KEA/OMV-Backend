@@ -26,11 +26,11 @@ public class OmvBackendApplication {
     /**
      * CommandLineRunner to add the adminUser
      */
-    /*@Bean
+    @Bean
     public CommandLineRunner importData(UserService service) {
         return (args) -> {
         service.create(new User("user", "password"));
         };
-    }*/
+    }
     
 }

@@ -13,7 +13,6 @@ import org.modelmapper.ModelMapper;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -63,8 +62,10 @@ public class DtoFactory {
             workDTO.setReleaseDate(dateTime);
         }
 
-        workDTO.setSingleName(work.getSingleName());
-        workDTO.setArtistName(work.getArtistName());
+        workDTO.setRelease(work.getRelease());
+        workDTO.setArtist(work.getArtist());
+        workDTO.setCredit(work.getCredit());
+        workDTO.setCommentary(work.getCommentary());
         workDTO.setImage(work.getImage());
         workDTO.setId(work.getId());
 
@@ -90,8 +91,10 @@ public class DtoFactory {
             work.setReleaseDate(LocalDate.now());
         }
 
-        work.setArtistName(workDTO.getArtistName());
-        work.setSingleName(workDTO.getSingleName());
+        work.setArtist(workDTO.getArtist());
+        work.setRelease(workDTO.getRelease());
+        work.setCredit(workDTO.getCredit());
+        work.setCommentary(workDTO.getCommentary());
         work.setImage(workDTO.getImage());
         work.setId(workDTO.getId());
 
