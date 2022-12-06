@@ -28,18 +28,18 @@ public class OmvBackendApplication {
     /**
      * CommandLineRunner to add the adminUser
      */
-    @Bean
+    /*@Bean
     public CommandLineRunner importData(UserService service) {
         return (args) -> {
             service.create(new User("user", "password"));
         };
-    }
+    }*/
 
     //commandline to Livevideo.
-    @Bean
+    /*@Bean
     public CommandLineRunner importDataTwo(LiveVideoService service) {
         return (args) -> {
         service.create(new LiveVideo("Pelle.com","pelle","jajaja", LocalDate.EPOCH));
         };
-    }
+    }*/
 }
