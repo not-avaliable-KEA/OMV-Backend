@@ -12,7 +12,7 @@ public class LiveVideoDTO {
 
     private Long id;
     private String url;
-    private String titel;
+    private String title;
     private String intro;
     private LocalDate date;
 }

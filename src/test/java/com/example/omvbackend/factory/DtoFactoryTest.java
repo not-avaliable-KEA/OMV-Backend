@@ -168,7 +168,7 @@ class DtoFactoryTest {
       //Assert
 
         assertInstanceOf(Work.class, result);
-        assertEquals(expectedSingleName, result.getRelease());
+        assertEquals(expectedSingleName, result.getSingleName());
         assertEquals(expectedArtistName, result.getArtistName());
         assertEquals(expectedImage, result.getImage());
         assertEquals(workDTO.getId(), result.getId());

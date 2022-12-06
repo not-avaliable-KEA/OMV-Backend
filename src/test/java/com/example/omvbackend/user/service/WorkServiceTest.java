@@ -35,7 +35,7 @@ public class WorkServiceTest {
 
         //Assert
         //checking if singlename is set correctly
-        assertEquals(result.getRelease(), expectedSingleName);
+        assertEquals(result.getSingleName(), expectedSingleName);
         //checking if producername is set correctly
         assertEquals(result.getProducerName(), expectedProducerName);
         //checking if artistname is set correctly
@@ -96,7 +96,7 @@ public class WorkServiceTest {
         Work created = workService.create(new Work("test","test","test","test","test",LocalDate.now(),"test","test"));
         Work updateTo = new Work();
         updateTo.setId(created.getId());
-        updateTo.setRelease("new Test");
+        updateTo.setSingleName("new Test");
         updateTo.setProducerName("new Test");
         updateTo.setArtistName("new Test");
         updateTo.setDescription("new Test");
@@ -113,7 +113,7 @@ public class WorkServiceTest {
         assertNotEquals(updateTo,created);
         //checks the basics
         assertEquals(updateTo.getId(),result.getId());
-        assertEquals(updateTo.getRelease(),result.getRelease());
+        assertEquals(updateTo.getSingleName(),result.getSingleName());
         assertEquals(updateTo.getArtistName(),result.getArtistName());
         assertEquals(updateTo.getDescription(),result.getDescription());
         assertEquals(updateTo.getImage(),result.getImage());

@@ -66,7 +66,7 @@ public class DtoFactory {
             workDTO.setReleaseDate(dateTime);
         }
 
-        workDTO.setSingleName(work.getRelease());
+        workDTO.setSingleName(work.getSingleName());
         workDTO.setArtistName(work.getArtistName());
         workDTO.setImage(work.getImage());
         workDTO.setId(work.getId());
@@ -94,7 +94,7 @@ public class DtoFactory {
         }
 
         work.setArtistName(workDTO.getArtistName());
-        work.setRelease(workDTO.getSingleName());
+        work.setSingleName(workDTO.getSingleName());
         work.setImage(workDTO.getImage());
         work.setId(workDTO.getId());
 
@@ -166,7 +166,7 @@ public class DtoFactory {
         }
 
         liveVideo.setUrl(liveVideoDTO.getUrl());
-        liveVideo.setTitle(liveVideoDTO.getTitel());
+        liveVideo.setTitle(liveVideoDTO.getTitle());
         liveVideo.setIntro(liveVideoDTO.getIntro());
 
         return liveVideo;
