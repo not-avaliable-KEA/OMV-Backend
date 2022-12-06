@@ -84,6 +84,29 @@ class LiveVideoServiceTest {
     }
 
     //update test
+    @Test
+    void updateIntro() {
+        // arrange
+        String expectedTitle = "ExpectedTitle";
+        String expectedUrl = "ExpectedUrl";
+        String expectedIntro = "ExpectedIntro";
+        LocalDate expectedDate = LocalDate.now();
+        Long id = service.create(new LiveVideo(expectedUrl, expectedTitle, "yaaassiii", expectedDate)).getId();
+
+        LiveVideo updatedLiveVideo = new LiveVideo();
+        updatedLiveVideo.setId(id);
+        updatedLiveVideo.setIntro(expectedIntro);
+
+        // act
+        Optional<LiveVideo> result = service.update(updatedLiveVideo);
+
+        // assert
+        assertTrue(result.isPresent());
+        assertEquals(expectedUrl, result.get().getUrl());
+        assertEquals(expectedTitle, result.get().getTitle());
+        assertEquals(expectedIntro, result.get().getIntro());
+        checkLocalDateTimeEquals(expectedDate, result.get().getDate());
+    }
 
     //delete test
     @Test

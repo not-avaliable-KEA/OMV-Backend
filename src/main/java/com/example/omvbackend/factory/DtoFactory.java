@@ -146,7 +146,7 @@ public class DtoFactory {
      * liveVideo
      ***********/
 
-    public static LiveVideoDTO fromLivevideo(LiveVideo liveVideo) {
+    public static LiveVideoDTO fromLiveVideo(LiveVideo liveVideo) {
         LiveVideoDTO dto = modelMapper.map(liveVideo, LiveVideoDTO.class);
         //vi parser og sætter setter date i DTO.
         LocalDate timeUnformated = LocalDate.parse(formatter.format(liveVideo.getDate()));
@@ -154,7 +154,7 @@ public class DtoFactory {
         return dto;
     }
 
-    public static LiveVideo fromliveVideo(LiveVideoDTO liveVideoDTO) {
+    public static LiveVideo fromLiveVideoDTO(LiveVideoDTO liveVideoDTO) {
         LiveVideo liveVideo = new LiveVideo();
 
         //we parse workDTOs releaseDato to Localedate
@@ -170,6 +170,12 @@ public class DtoFactory {
         liveVideo.setIntro(liveVideoDTO.getIntro());
 
         return liveVideo;
+    }
+
+    public static List<LiveVideoDTO> fromLiveVideos(List<LiveVideo> liveVideos) {
+        return liveVideos.stream()
+                .map(DtoFactory::fromLiveVideo)
+                .collect(Collectors.toList());
     }
 
 
