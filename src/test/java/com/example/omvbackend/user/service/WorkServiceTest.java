@@ -22,35 +22,30 @@ public class WorkServiceTest {
     @Test
     void create(){
         //Arrange - expected
-        String expectedSingleName= "singleName";
-        String expectedProducerName = "producerName";
-        String expectedArtistName = "artiskName";
-        String expectedDescription = "description";
+        String expectedreleaseName= "releaseName";
+        String expectedCredit = "credit";
+        String expectedArtist = "artist";
+        String expectedCommentary = "commentary";
         String expectedImage = "image";
         LocalDate expectedReleaseDate = LocalDate.now();
-        String expectedWriter = "writer";
-        String expectedMaster = "master";
+
 
         //Act - result
-        Work result = workService.create(new Work(expectedSingleName,expectedProducerName,expectedArtistName,expectedDescription,expectedImage,expectedReleaseDate,expectedWriter,expectedMaster));
+        Work result = workService.create(new Work(expectedreleaseName,expectedCredit,expectedArtist,expectedCommentary,expectedImage,expectedReleaseDate));
 
         //Assert
         //checking if singlename is set correctly
-        assertEquals(result.getSingleName(), expectedSingleName);
+        assertEquals(result.getReleaseName(), expectedreleaseName);
         //checking if producername is set correctly
-        assertEquals(result.getProducerName(), expectedProducerName);
+        assertEquals(result.getCredit(), expectedCredit);
         //checking if artistname is set correctly
-        assertEquals(result.getArtistName(),expectedArtistName);
+        assertEquals(result.getArtist(),expectedArtist);
         //checking if description is set correctly
-        assertEquals(result.getDescription(),expectedDescription);
+        assertEquals(result.getCommentary(),expectedCommentary);
         //checking if image is set correctly
         assertEquals(result.getImage(),expectedImage);
         //checking if releasedate is set correctly
         assertEquals(result.getReleaseDate(),expectedReleaseDate);
-        //checking if writer is set correctly
-        assertEquals(result.getWriter(),expectedWriter);
-        //checking if master is set correctly
-        assertEquals(result.getMaster(),expectedMaster);
         //checking if Id is set correctly
         assertNotNull(result.getId());
         assertTrue(result.getId() > 0);
@@ -59,7 +54,7 @@ public class WorkServiceTest {
     @Test
     void getAll(){
         //Arrange
-        workService.create(new Work("test","test","test","test","test",LocalDate.now(),"test","test"));
+        workService.create(new Work("test","test","test","test","test",LocalDate.now()));
         int expectedsize = 2; //2 cause we created a new one in the delete method
 
         //Act
@@ -79,7 +74,7 @@ public class WorkServiceTest {
     @Test
     void get_validId(){
         //Arrange
-        Work expectedWork = workService.create(new Work("test","test","test","test","test",LocalDate.now(),"test","test"));
+        Work expectedWork = workService.create(new Work("test","test","test","test","test",LocalDate.now()));
 
         //Act
         Optional<Work> result = workService.get(expectedWork.getId());
@@ -94,17 +89,16 @@ public class WorkServiceTest {
     @Test
     void update(){
         //Arrange
-        Work created = workService.create(new Work("test","test","test","test","test",LocalDate.now(),"test","test"));
+        Work created = workService.create(new Work("test","test","test","test","test",LocalDate.now()));
         Work updateTo = new Work();
         updateTo.setId(created.getId());
-        updateTo.setSingleName("new Test");
-        updateTo.setProducerName("new Test");
-        updateTo.setArtistName("new Test");
-        updateTo.setDescription("new Test");
+        updateTo.setReleaseName("new Test");
+        updateTo.setCredit("new Test");
+        updateTo.setArtist("new Test");
+        updateTo.setCommentary("new Test");
         updateTo.setImage("new Test");
         updateTo.setReleaseDate(LocalDate.now());
-        updateTo.setWriter("new Test");
-        updateTo.setMaster("new Test");
+
 
         //Act
         Work result = workService.update(updateTo);
@@ -114,20 +108,18 @@ public class WorkServiceTest {
         assertNotEquals(updateTo,created);
         //checks the basics
         assertEquals(updateTo.getId(),result.getId());
-        assertEquals(updateTo.getSingleName(),result.getSingleName());
-        assertEquals(updateTo.getArtistName(),result.getArtistName());
-        assertEquals(updateTo.getDescription(),result.getDescription());
+        assertEquals(updateTo.getReleaseDate(),result.getReleaseName());
+        assertEquals(updateTo.getArtist(),result.getArtist());
+        assertEquals(updateTo.getCommentary(),result.getCommentary());
         assertEquals(updateTo.getImage(),result.getImage());
         assertEquals(updateTo.getReleaseDate(),result.getReleaseDate());
-        assertEquals(updateTo.getWriter(),result.getWriter());
-        assertEquals(updateTo.getMaster(),result.getMaster());
     }
 
     @Test
     void delete(){
         //Arrange
         //Create a work to delete
-        Work expectedWork = workService.create(new Work("test","test","test","test","test",LocalDate.now(),"test","test"));
+        Work expectedWork = workService.create(new Work("test","test","test","test","test",LocalDate.now()));
         //get the expected lenght of users, minus 1, since we expect to remove the one we just created
         int expectedLengthOfWorks = workService.getAll().size() - 1;
 
