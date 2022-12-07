@@ -1,5 +1,7 @@
 package com.example.omvbackend.factory;
 
+import com.example.omvbackend.livevideo.DTOs.LiveVideoDTO;
+import com.example.omvbackend.livevideo.model.LiveVideo;
 import com.example.omvbackend.user.DTOs.UserDTO;
 import com.example.omvbackend.user.model.User;
 import com.example.omvbackend.work.DTOs.WorkDTO;
@@ -172,5 +174,43 @@ class DtoFactoryTest {
         assertEquals(expectedImage, result.getImage());
         assertEquals(workDTO.getId(), result.getId());
         assertEquals(expectedReleaseDate, result.getReleaseDate());
+    }
+
+    /************
+     * LiveVideo
+     ************/
+    @Test
+    void fromLiveVideo() {
+        // arrange
+        LiveVideo video = new LiveVideo("url", "titel", "intro", LocalDate.of(2020, 11, 10));
+        video.setId(1L);
+        // act
+        LiveVideoDTO result = DtoFactory.fromLiveVideo(video);
+
+        // assert
+        assertEquals(video.getUrl(), result.getUrl());
+        assertEquals(video.getTitle(), result.getTitle());
+        assertEquals(video.getIntro(), result.getIntro());
+        assertEquals(video.getId(), result.getId());
+        assertEquals("2020-11-10", result.getDate());
+    }
+
+    @Test
+    void fromLiveVideoDTO() {
+        // arrange
+        LiveVideoDTO videoDTO = new LiveVideoDTO();
+        videoDTO.setUrl("url");
+        videoDTO.setTitle("title");
+        videoDTO.setIntro("intro");
+        videoDTO.setDate("2020-11-10");
+
+        // act
+        LiveVideo result = DtoFactory.fromLiveVideoDTO(videoDTO);
+
+        // assert
+        assertEquals(videoDTO.getUrl(), result.getUrl());
+        assertEquals(videoDTO.getTitle(), result.getTitle());
+        assertEquals(videoDTO.getIntro(), result.getIntro());
+        assertEquals(result.getDate(), LocalDate.of(2020, 11, 10));
     }
 }
