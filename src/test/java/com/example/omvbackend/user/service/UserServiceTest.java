@@ -49,8 +49,8 @@ class UserServiceTest {
     @Test
     void getAll() {
         //arrange
+        int expectedSize = userService.getAll().size() + 1;
         userService.create(new User("tutu", "tamtam"));
-        int expectedSize = 4;
 
         //act
         List<User> result = userService.getAll();
