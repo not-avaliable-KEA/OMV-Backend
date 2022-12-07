@@ -108,7 +108,7 @@ public class WorkServiceTest {
         assertNotEquals(updateTo,created);
         //checks the basics
         assertEquals(updateTo.getId(),result.getId());
-        assertEquals(updateTo.getReleaseDate(),result.getReleaseName());
+        assertEquals(updateTo.getReleaseName(),result.getReleaseName());
         assertEquals(updateTo.getArtist(),result.getArtist());
         assertEquals(updateTo.getCommentary(),result.getCommentary());
         assertEquals(updateTo.getImage(),result.getImage());

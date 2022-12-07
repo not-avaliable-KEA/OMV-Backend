@@ -122,7 +122,7 @@ class DtoFactoryTest {
 
         Work work;
         for (int i = 0; i < 10; i++) {
-            work = new Work(expectedRelease + "i", expectedCredit, expectedArtist + "i", expectedCommentary, expectedImage + "i", expectedReleaseDate);
+            work = new Work(expectedRelease + "i", expectedCredit + "i", expectedArtist + "i", expectedCommentary + "i", expectedImage + "i", expectedReleaseDate);
             work.setId(i);
             list.add(work);
         }
