@@ -11,9 +11,11 @@ public class WorkDTO {
 
     private long id;
     private String image;
-    private String artistName;
-    private String singleName;
+    private String artist;
+    private String releaseName;
     private String releaseDate;
+    private String commentary;
+    private String credit;
 }
 
 

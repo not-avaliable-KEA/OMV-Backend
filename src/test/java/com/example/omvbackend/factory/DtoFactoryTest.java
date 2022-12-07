@@ -61,7 +61,7 @@ class DtoFactoryTest {
             user.setId((long) i);
             list.add(user);
         }
-        
+
         // act
         List<UserDTO> result = DtoFactory.fromUsers(list);
 
@@ -93,9 +93,7 @@ class DtoFactoryTest {
         String expectedDescription = "description";
         String expectedImage = "image";
         LocalDate expectedReleaseDate = LocalDate.now();
-        String expectedWriter = "writer";
-        String expectedMaster = "master";
-        Work work = new Work(expectedSingleName, expectedProducerName, expectedArtistName, expectedDescription, expectedImage, expectedReleaseDate, expectedWriter, expectedMaster);
+        Work work = new Work(expectedSingleName, expectedProducerName, expectedArtistName, expectedDescription, expectedImage, expectedReleaseDate);
         work.setId(1L);
 
         //Act
@@ -105,8 +103,8 @@ class DtoFactoryTest {
         assertInstanceOf(WorkDTO.class, result);
         assertEquals(work.getId(), result.getId());
         assertEquals(expectedImage, result.getImage());
-        assertEquals(expectedArtistName, result.getArtistName());
-        assertEquals(expectedSingleName, result.getSingleName());
+        assertEquals(expectedArtistName, result.getArtist());
+        assertEquals(expectedSingleName, result.getReleaseName());
         assertNotEquals(expectedReleaseDate, result.getReleaseDate());
     }
 
@@ -115,61 +113,62 @@ class DtoFactoryTest {
         //Arrange
         ArrayList<Work> list = new ArrayList<>();
 
-        String expectedSingleName = "singleName";
-        String expectedProducerName = "producerName";
-        String expectedArtistName = "artistName";
-        String expectedDescription = "description";
+        String expectedRelease = "release";
+        String expectedCredit = "credit";
+        String expectedArtist = "artist";
+        String expectedCommentary = "commentary";
         String expectedImage = "image";
         LocalDate expectedReleaseDate = LocalDate.of(2022, 10, 01);
-        String expectedWriter = "writer";
-        String expectedMaster = "master";
+
         Work work;
         for (int i = 0; i < 10; i++) {
-            work = new Work(expectedSingleName + "i", expectedProducerName, expectedArtistName + "i", expectedDescription, expectedImage + "i", expectedReleaseDate , expectedWriter, expectedMaster);
+            work = new Work(expectedRelease + "i", expectedCredit + "i", expectedArtist + "i", expectedCommentary + "i", expectedImage + "i", expectedReleaseDate);
             work.setId(i);
             list.add(work);
         }
 
-            //Act
-            List<WorkDTO> result = DtoFactory.fromWorks(list);
+        //Act
+        List<WorkDTO> result = DtoFactory.fromWorks(list);
 
-            //Assert
-            assertInstanceOf(List.class, result);
+        //Assert
+        assertInstanceOf(List.class, result);
 
-            WorkDTO coverDTO;
-            for (int i = 0; i < result.size(); i++) {
-                coverDTO = result.get(i);
-                assertInstanceOf(WorkDTO.class, coverDTO);
-                assertEquals(expectedImage + "i", coverDTO.getImage());
-                assertEquals(expectedArtistName + "i", coverDTO.getArtistName());
-                assertEquals(expectedSingleName + "i", coverDTO.getSingleName());
-                assertEquals("2022-10-01", coverDTO.getReleaseDate());
-                assertEquals(i, coverDTO.getId());
-            }
+        WorkDTO coverDTO;
+        for (int i = 0; i < result.size(); i++) {
+            coverDTO = result.get(i);
+            assertInstanceOf(WorkDTO.class, coverDTO);
+            assertEquals(expectedImage + "i", coverDTO.getImage());
+            assertEquals(expectedArtist + "i", coverDTO.getArtist());
+            assertEquals(expectedRelease + "i", coverDTO.getReleaseName());
+            assertEquals(expectedCommentary + "i", coverDTO.getCommentary());
+            assertEquals(expectedCredit + "i", coverDTO.getCredit());
+            assertEquals("2022-10-01", coverDTO.getReleaseDate());
+            assertEquals(i, coverDTO.getId());
+        }
     }
 
     @Test
     void fromWorkDTO(){
-      //Arrange
-        String expectedSingleName = "singleName";
-        String expectedArtistName = "artistName";
+        //Arrange
+        String expectedRelease = "singleName";
+        String expectedArtist = "artistName";
         String expectedImage = "image";
         LocalDate expectedReleaseDate = LocalDate.now();
         WorkDTO workDTO = new WorkDTO();
-        workDTO.setSingleName(expectedSingleName);
-        workDTO.setArtistName(expectedArtistName);
+        workDTO.setReleaseName(expectedRelease);
+        workDTO.setArtist(expectedArtist);
         workDTO.setImage(expectedImage);
         workDTO.setReleaseDate(String.valueOf(expectedReleaseDate));
         workDTO.setId(1L);
 
-      //Act
+        //Act
         Work result = DtoFactory.fromWorkDTO(workDTO);
 
-      //Assert
+        //Assert
 
         assertInstanceOf(Work.class, result);
-        assertEquals(expectedSingleName, result.getSingleName());
-        assertEquals(expectedArtistName, result.getArtistName());
+        assertEquals(expectedRelease, result.getReleaseName());
+        assertEquals(expectedArtist, result.getArtist());
         assertEquals(expectedImage, result.getImage());
         assertEquals(workDTO.getId(), result.getId());
         assertEquals(expectedReleaseDate, result.getReleaseDate());

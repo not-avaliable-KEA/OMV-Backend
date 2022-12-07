@@ -22,10 +22,10 @@ import java.util.Optional;
 public class WorkController {
     private final WorkService service;
 
-public WorkController(WorkService service){
-    this.service = service;
+    public WorkController(WorkService service){
+        this.service = service;
 
-}
+    }
 
     @PostMapping
     public ResponseEntity<WorkDTO> create(HttpSession session, @Valid @RequestBody WorkDTO work){

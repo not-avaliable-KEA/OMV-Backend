@@ -3,8 +3,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 import javax.persistence.*;
 
@@ -16,50 +14,42 @@ public class Work {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private long id;
-    private String singleName;
-    private String producerName;
-    private String artistName;
-    private String description;
+    private String releaseName;
+    private String credit;
+    private String artist;
+    private String commentary;
 
     @Column(columnDefinition = "MEDIUMTEXT")
     private String image;
     private LocalDate releaseDate;
-    private String writer;
-    private String master;
 
-    public Work(String singleName, String producerName, String artistName, String description, String image, LocalDate releaseDate, String writer, String master) {
-        this.singleName = singleName;
-        this.producerName = producerName;
-        this.artistName = artistName;
-        this.description = description;
+    public Work(String releaseName, String credit, String artist, String commentary, String image, LocalDate releaseDate) {
+        this.releaseName = releaseName;
+        this.credit = credit;
+        this.artist = artist;
+        this.commentary = commentary;
         this.image = image;
         this.releaseDate = releaseDate;
-        this.writer = writer;
-        this.master = master;
     }
 
     public Work update(Work work) {
-        if (work.singleName != null && !work.singleName.trim().isEmpty())
-            this.singleName = work.getSingleName();
+        if (work.releaseName != null && !work.releaseName.trim().isEmpty())
+            this.releaseName = work.getReleaseName();
 
-        if (work.producerName != null && !work.producerName.trim().isEmpty())
-            this.producerName = work.getProducerName();
+        if (work.credit != null && !work.credit.trim().isEmpty())
+            this.credit = work.getCredit();
 
-        if (work.artistName != null && !work.artistName.trim().isEmpty())
-            this.artistName = work.getArtistName();
+        if (work.artist != null && !work.artist.trim().isEmpty())
+            this.artist = work.getArtist();
 
-        if (work.description != null && !work.description.trim().isEmpty())
-            this.description = work.getDescription();
+        if (work.commentary != null && !work.commentary.trim().isEmpty())
+            this.commentary = work.getCommentary();
         if (work.image!= null && !work.image.trim().isEmpty())
             this.image = work.getImage();
 
         if (work.releaseDate != null)
             this.releaseDate = work.releaseDate;
 
-        if (work.writer != null && !work.writer.trim().isEmpty())
-            this.writer = work.getWriter();
-
-        if (work.master != null && !work.master.trim().isEmpty())this.master = work.getMaster();
         return this;
     }
 
