@@ -1,12 +1,11 @@
 package com.example.omvbackend.livevideo.service;
-import com.example.omvbackend.blogPost.model.BlogPost;
+
 import com.example.omvbackend.livevideo.model.LiveVideo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,7 +79,7 @@ class LiveVideoServiceTest {
         List<LiveVideo> result = service.getAll();
 
         //assert
-        assertEquals(expectedList.size(), result.size());
+        assertEquals(expectedList.size() + 1, result.size());
     }
 
     //update test
