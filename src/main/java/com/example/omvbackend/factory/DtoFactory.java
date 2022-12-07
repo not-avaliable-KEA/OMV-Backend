@@ -3,8 +3,6 @@ package com.example.omvbackend.factory;
 import com.example.omvbackend.OmvBackendApplication;
 import com.example.omvbackend.blogPost.DTOs.BlogPostDTO;
 import com.example.omvbackend.blogPost.model.BlogPost;
-import com.example.omvbackend.livevideo.DTOs.LiveVideoDTO;
-import com.example.omvbackend.livevideo.model.LiveVideo;
 import com.example.omvbackend.user.DTOs.UserDTO;
 import com.example.omvbackend.user.model.User;
 import com.example.omvbackend.work.DTOs.WorkDTO;
@@ -22,14 +20,12 @@ import java.util.stream.Collectors;
 public class DtoFactory {
 
     private static final ModelMapper modelMapper = OmvBackendApplication.modelMapper();
-
-    //work
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter formatterWork = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 
     //user
 
-    private static final DateTimeFormatter formatterBlog = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 
     /********
@@ -62,7 +58,7 @@ public class DtoFactory {
         WorkDTO workDTO = new WorkDTO();
 
         if (work.getReleaseDate() != null) {
-            String dateTime = work.getReleaseDate().format(formatter);
+            String dateTime = work.getReleaseDate().format(formatterWork);
             workDTO.setReleaseDate(dateTime);
         }
 
@@ -89,7 +85,7 @@ public class DtoFactory {
         //we parse workDTOs releaseDato to Localedate
         if(workDTO.getReleaseDate() != null && !workDTO.getReleaseDate().isEmpty()){
             System.out.println(workDTO.getReleaseDate());
-            LocalDate dateTime = LocalDate.parse(workDTO.getReleaseDate(), formatter);
+            LocalDate dateTime = LocalDate.parse(workDTO.getReleaseDate(), formatterWork);
             work.setReleaseDate(dateTime);
         } else {
             work.setReleaseDate(LocalDate.now());
@@ -115,7 +111,7 @@ public class DtoFactory {
 
         LocalDateTime timeUnformated = LocalDateTime.parse(dto.getCreatedDate());
 
-        dto.setCreatedDate(timeUnformated.format(formatterBlog));
+        dto.setCreatedDate(timeUnformated.format(formatter));
 
         return dto;
     }
@@ -126,7 +122,7 @@ public class DtoFactory {
 
         // parse and set createDate
         if (blogPostDTO.getCreatedDate() != null && !blogPostDTO.getCreatedDate().trim().isEmpty()) {
-            LocalDateTime dateTime = LocalDateTime.parse(blogPostDTO.getCreatedDate(), formatterBlog);
+            LocalDateTime dateTime = LocalDateTime.parse(blogPostDTO.getCreatedDate(), formatter);
             blogPost.setCreatedDate(dateTime);
         }
 
@@ -145,44 +141,6 @@ public class DtoFactory {
                 .map(DtoFactory::fromBlogPost)
                 .collect(Collectors.toList());
     }
-
-    /***********
-     * liveVideo
-     ***********/
-
-    public static LiveVideoDTO fromLiveVideo(LiveVideo liveVideo) {
-        LiveVideoDTO dto = modelMapper.map(liveVideo, LiveVideoDTO.class);
-        //vi parser og sætter setter date i DTO.
-        String timeUnformated = formatter.format(liveVideo.getDate());
-        dto.setDate(timeUnformated);
-        return dto;
-    }
-
-    public static LiveVideo fromLiveVideoDTO(LiveVideoDTO liveVideoDTO) {
-        LiveVideo liveVideo = new LiveVideo();
-
-        //we parse workDTOs releaseDato to Localedate
-        if(liveVideoDTO.getDate() != null){
-            LocalDate dateTime = LocalDate.parse(liveVideoDTO.getDate(), formatter);
-            liveVideo.setDate(dateTime);
-        } else {
-            liveVideo.setDate(LocalDate.now());
-        }
-
-        liveVideo.setUrl(liveVideoDTO.getUrl());
-        liveVideo.setTitle(liveVideoDTO.getTitle());
-        liveVideo.setIntro(liveVideoDTO.getIntro());
-
-        return liveVideo;
-    }
-
-    public static List<LiveVideoDTO> fromLiveVideos(List<LiveVideo> liveVideos) {
-        return liveVideos.stream()
-                .map(DtoFactory::fromLiveVideo)
-                .collect(Collectors.toList());
-    }
-
-
 
 }
 
