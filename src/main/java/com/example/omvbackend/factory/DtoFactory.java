@@ -62,7 +62,7 @@ public class DtoFactory {
             workDTO.setReleaseDate(dateTime);
         }
 
-        workDTO.setRelease(work.getRelease());
+        workDTO.setReleaseName(work.getReleaseName());
         workDTO.setArtist(work.getArtist());
         workDTO.setCredit(work.getCredit());
         workDTO.setCommentary(work.getCommentary());
@@ -92,7 +92,7 @@ public class DtoFactory {
         }
 
         work.setArtist(workDTO.getArtist());
-        work.setRelease(workDTO.getRelease());
+        work.setReleaseName(workDTO.getReleaseName());
         work.setCredit(workDTO.getCredit());
         work.setCommentary(workDTO.getCommentary());
         work.setImage(workDTO.getImage());

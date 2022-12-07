@@ -104,7 +104,7 @@ class DtoFactoryTest {
         assertEquals(work.getId(), result.getId());
         assertEquals(expectedImage, result.getImage());
         assertEquals(expectedArtistName, result.getArtist());
-        assertEquals(expectedSingleName, result.getRelease());
+        assertEquals(expectedSingleName, result.getReleaseName());
         assertNotEquals(expectedReleaseDate, result.getReleaseDate());
     }
 
@@ -139,7 +139,7 @@ class DtoFactoryTest {
             assertInstanceOf(WorkDTO.class, coverDTO);
             assertEquals(expectedImage + "i", coverDTO.getImage());
             assertEquals(expectedArtist + "i", coverDTO.getArtist());
-            assertEquals(expectedRelease + "i", coverDTO.getRelease());
+            assertEquals(expectedRelease + "i", coverDTO.getReleaseName());
             assertEquals(expectedCommentary + "i", coverDTO.getCommentary());
             assertEquals(expectedCredit + "i", coverDTO.getCredit());
             assertEquals("2022-10-01", coverDTO.getReleaseDate());
@@ -155,7 +155,7 @@ class DtoFactoryTest {
         String expectedImage = "image";
         LocalDate expectedReleaseDate = LocalDate.now();
         WorkDTO workDTO = new WorkDTO();
-        workDTO.setRelease(expectedRelease);
+        workDTO.setReleaseName(expectedRelease);
         workDTO.setArtist(expectedArtist);
         workDTO.setImage(expectedImage);
         workDTO.setReleaseDate(String.valueOf(expectedReleaseDate));
@@ -167,7 +167,7 @@ class DtoFactoryTest {
         //Assert
 
         assertInstanceOf(Work.class, result);
-        assertEquals(expectedRelease, result.getRelease());
+        assertEquals(expectedRelease, result.getReleaseName());
         assertEquals(expectedArtist, result.getArtist());
         assertEquals(expectedImage, result.getImage());
         assertEquals(workDTO.getId(), result.getId());

@@ -14,7 +14,7 @@ public class Work {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private long id;
-    private String release;
+    private String releaseName;
     private String credit;
     private String artist;
     private String commentary;
@@ -23,8 +23,8 @@ public class Work {
     private String image;
     private LocalDate releaseDate;
 
-    public Work(String release, String credit, String artist, String commentary, String image, LocalDate releaseDate) {
-        this.release = release;
+    public Work(String releaseName, String credit, String artist, String commentary, String image, LocalDate releaseDate) {
+        this.releaseName = releaseName;
         this.credit = credit;
         this.artist = artist;
         this.commentary = commentary;
@@ -33,8 +33,8 @@ public class Work {
     }
 
     public Work update(Work work) {
-        if (work.release != null && !work.release.trim().isEmpty())
-            this.release = work.getRelease();
+        if (work.releaseName != null && !work.releaseName.trim().isEmpty())
+            this.releaseName = work.getReleaseName();
 
         if (work.credit != null && !work.credit.trim().isEmpty())
             this.credit = work.getCredit();
